@@ -1,0 +1,1020 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Groupon Instagram Weekly Report",
+  "schemaVersion": 1,
+  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK, and Linktree performance across US, UK, FR, DE, and ES pages. Updated weekly. Current week: May 24–28, 2026.",
+  "mcpTools": [
+    "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__data_query",
+    "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__get_async_query_results",
+    "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__field_discovery",
+    "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__accounts_discovery"
+  ],
+  "mcpServerNames": [
+    "Supermetrics Marketing Analytics",
+    "Supermetrics Marketing Analytics",
+    "Supermetrics Marketing Analytics",
+    "Supermetrics Marketing Analytics"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groupon Social Weekly Report</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+.header { background: #1a1a1a; color: white; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.header-left { display: flex; align-items: center; gap: 14px; }
+.header-logo { width: 34px; height: 34px; background: #00a651; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 17px; color: white; flex-shrink: 0; }
+.header-text h1 { font-size: 17px; font-weight: 700; }
+.header-text p { font-size: 11px; color: #aaa; margin-top: 2px; }
+.week-selector-wrap { display: flex; align-items: center; gap: 10px; }
+.week-selector-wrap label { font-size: 12px; color: #aaa; white-space: nowrap; }
+#weekSelect { background: #2a2a2a; color: white; border: 1px solid #444; border-radius: 8px; padding: 7px 12px; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; }
+#weekSelect:focus { border-color: #00a651; }
+.platform-nav { background: #fff; border-bottom: 2px solid #e8e8e8; display: flex; padding: 0 28px; }
+.platform-tab { padding: 13px 20px; font-size: 14px; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; color: #666; transition: color 0.15s; }
+.platform-tab:hover { color: #222; }
+.platform-tab.active { color: #00a651; border-bottom-color: #00a651; }
+.platform-panel { display: none; padding: 22px 28px; }
+.platform-panel.active { display: block; }
+.sub-nav { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.sub-tab { padding: 6px 15px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; background: #f0f0f0; color: #555; border: none; transition: all 0.15s; }
+.sub-tab:hover { background: #e0e0e0; }
+.sub-tab.active { background: #00a651; color: white; }
+.sub-panel { display: none; }
+.sub-panel.active { display: block; }
+.kpi-row { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.kpi { background: white; border-radius: 10px; padding: 13px 16px; flex: 1; min-width: 105px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+.kpi-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-value { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-top: 3px; }
+.kpi-value.green { color: #00a651; }
+.kpi-sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+.kpi-wow { font-size: 11px; font-weight: 600; margin-top: 3px; }
+.wow-up { color: #00a651; }
+.wow-down { color: #e53935; }
+.chart-card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); margin-bottom: 18px; }
+.chart-title { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 12px; }
+.chart-wrap { position: relative; height: 175px; }
+.table-wrap { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); margin-bottom: 18px; }
+.table-title { padding: 12px 16px 9px; font-size: 13px; font-weight: 700; color: #333; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 10px; background: #f0f0f0; color: #666; }
+.badge.us { background: #e8f5e9; color: #2e7d32; }
+.badge.uk { background: #e3f2fd; color: #1565c0; }
+.badge.de { background: #fff8e1; color: #f57f17; }
+.badge.fr { background: #fce4ec; color: #c62828; }
+.badge.es { background: #f3e5f5; color: #6a1b9a; }
+.badge.na { background: #e8f5e9; color: #2e7d32; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+thead th { padding: 9px 13px; text-align: left; font-size: 10.5px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
+tbody td { padding: 9px 13px; border-bottom: 1px solid #f7f7f7; color: #333; vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover:not(.total-row) td { background: #fafff9; }
+.post-caption { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #555; }
+.pt { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+.pt-photo { background: #fef3e2; color: #e65100; }
+.pt-carousel { background: #f3e5f5; color: #7b1fa2; }
+.pt-reel { background: #e8f5e9; color: #2e7d32; }
+.pt-image { background: #fef3e2; color: #e65100; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.num-big { font-weight: 700; color: #1a1a1a; }
+a.pl { color: #00a651; text-decoration: none; font-size: 11px; }
+a.pl:hover { text-decoration: underline; }
+.star { color: #f59e0b; }
+.note-bar { font-size: 12px; color: #888; background: #fffde7; border-left: 3px solid #f59e0b; padding: 8px 13px; border-radius: 6px; margin-bottom: 14px; }
+.total-row td { background: #f0faf4 !important; font-weight: 700; color: #1a1a1a; border-top: 2px solid #d4edda; }
+.total-row td:first-child { color: #00a651; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">G</div>
+    <div class="header-text">
+      <h1>Social Media Weekly Report</h1>
+      <p id="headerSub">Facebook · Instagram · TikTok</p>
+    </div>
+  </div>
+  <div class="week-selector-wrap">
+    <label>Week:</label>
+    <select id="weekSelect" onchange="switchWeek(this.value)">
+      <option value="may24">May 24–28, 2026</option>
+      <option value="may17">May 17–21, 2026</option>
+      <option value="may10">May 10–14, 2026</option>
+      <option value="may03">May 3–7, 2026</option>
+      <option value="apr26">Apr 26–30, 2026</option>
+      <option value="apr19">Apr 19–23, 2026</option>
+    </select>
+  </div>
+</div>
+<div class="platform-nav">
+  <div class="platform-tab active" onclick="showPlatform('facebook',this)">📘 Facebook</div>
+  <div class="platform-tab" onclick="showPlatform('instagram',this)">📸 Instagram</div>
+  <div class="platform-tab" onclick="showPlatform('tiktok',this)">🎵 TikTok</div>
+</div>
+<!-- FACEBOOK -->
+<div id="platform-facebook" class="platform-panel active">
+  <div id="fb-note"></div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Total Views</div><div class="kpi-value" id="fb-kpi-views">—</div></div>
+    <div class="kpi"><div class="kpi-label">Posts</div><div class="kpi-value" id="fb-kpi-posts">—</div></div>
+    <div class="kpi"><div class="kpi-label">Engagements</div><div class="kpi-value" id="fb-kpi-eng">—</div></div>
+    <div class="kpi"><div class="kpi-label">Top Post Views</div><div class="kpi-value green" id="fb-kpi-top">—</div><div class="kpi-sub" id="fb-kpi-top-label"></div></div>
+  </div>
+  <div class="chart-card"><div class="chart-title">Views by Post</div><div class="chart-wrap"><canvas id="fbChart"></canvas></div></div>
+  <div id="fb-tables"></div>
+</div>
+<!-- INSTAGRAM -->
+<div id="platform-instagram" class="platform-panel">
+  <div class="sub-nav">
+    <button class="sub-tab active" onclick="showSub('ig','feed',this)">Feed Posts</button>
+    <button class="sub-tab" onclick="showSub('ig','stories',this)">Stories</button>
+  </div>
+  <div id="ig-feed" class="sub-panel active">
+    <div id="igf-note"></div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">Total Views</div><div class="kpi-value" id="igf-kpi-views">—</div></div>
+      <div class="kpi"><div class="kpi-label">Owned Views</div><div class="kpi-value" id="igf-kpi-owned">—</div></div>
+      <div class="kpi"><div class="kpi-label">Posts</div><div class="kpi-value" id="igf-kpi-posts">—</div></div>
+      <div class="kpi"><div class="kpi-label">Likes</div><div class="kpi-value" id="igf-kpi-likes">—</div><div class="kpi-sub" id="igf-kpi-likes-sub"></div></div>
+      <div class="kpi"><div class="kpi-label">Shares</div><div class="kpi-value" id="igf-kpi-shares">—</div></div>
+      <div class="kpi"><div class="kpi-label">Top Post Views</div><div class="kpi-value green" id="igf-kpi-top">—</div><div class="kpi-sub" id="igf-kpi-top-label"></div></div>
+    </div>
+    <div class="chart-card"><div class="chart-title">Views by Post (owned only)</div><div class="chart-wrap"><canvas id="igfChart"></canvas></div></div>
+    <div id="igf-tables"></div>
+  </div>
+  <div id="ig-stories" class="sub-panel">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">Stories Published</div><div class="kpi-value" id="igs-kpi-count">—</div><div class="kpi-sub" id="igs-kpi-count-sub"></div></div>
+      <div class="kpi"><div class="kpi-label">Total Views</div><div class="kpi-value" id="igs-kpi-views">—</div></div>
+      <div class="kpi"><div class="kpi-label">Total Reach</div><div class="kpi-value" id="igs-kpi-reach">—</div></div>
+      <div class="kpi"><div class="kpi-label">Top Story Views</div><div class="kpi-value green" id="igs-kpi-top">—</div><div class="kpi-sub" id="igs-kpi-top-label"></div></div>
+    </div>
+    <div id="igs-tables"></div>
+  </div>
+</div>
+<!-- TIKTOK -->
+<div id="platform-tiktok" class="platform-panel">
+  <div class="sub-nav">
+    <button class="sub-tab active" onclick="showSub('tt','na',this)">@groupon (NA)</button>
+    <button class="sub-tab" onclick="showSub('tt','uk',this)">@groupon_uk (UK)</button>
+  </div>
+  <div id="tt-na" class="sub-panel active">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">Video Views</div><div class="kpi-value" id="tt-na-kpi-views">—</div></div>
+      <div class="kpi"><div class="kpi-label">Reach</div><div class="kpi-value" id="tt-na-kpi-reach">—</div></div>
+      <div class="kpi"><div class="kpi-label">Likes</div><div class="kpi-value" id="tt-na-kpi-likes">—</div></div>
+      <div class="kpi"><div class="kpi-label">Shares</div><div class="kpi-value" id="tt-na-kpi-shares">—</div></div>
+      <div class="kpi"><div class="kpi-label">Comments</div><div class="kpi-value" id="tt-na-kpi-comments">—</div></div>
+      <div class="kpi"><div class="kpi-label">Website Clicks</div><div class="kpi-value" id="tt-na-kpi-clicks">—</div></div>
+      <div class="kpi"><div class="kpi-label">Net Followers</div><div class="kpi-value green" id="tt-na-kpi-growth">—</div><div class="kpi-sub" id="tt-na-kpi-growth-sub"></div></div>
+    </div>
+    <div class="chart-card"><div class="chart-title">Daily Video Views &amp; Website Clicks</div><div class="chart-wrap"><canvas id="ttNaChart"></canvas></div></div>
+    <div id="tt-na-table"></div>
+  </div>
+  <div id="tt-uk" class="sub-panel">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">Video Views</div><div class="kpi-value" id="tt-uk-kpi-views">—</div></div>
+      <div class="kpi"><div class="kpi-label">Reach</div><div class="kpi-value" id="tt-uk-kpi-reach">—</div></div>
+      <div class="kpi"><div class="kpi-label">Likes</div><div class="kpi-value" id="tt-uk-kpi-likes">—</div></div>
+      <div class="kpi"><div class="kpi-label">Shares</div><div class="kpi-value" id="tt-uk-kpi-shares">—</div></div>
+      <div class="kpi"><div class="kpi-label">Comments</div><div class="kpi-value" id="tt-uk-kpi-comments">—</div></div>
+      <div class="kpi"><div class="kpi-label">Website Clicks</div><div class="kpi-value" id="tt-uk-kpi-clicks">—</div></div>
+      <div class="kpi"><div class="kpi-label">Net Followers</div><div class="kpi-value green" id="tt-uk-kpi-growth">—</div><div class="kpi-sub" id="tt-uk-kpi-growth-sub"></div></div>
+    </div>
+    <div class="chart-card"><div class="chart-title">Daily Video Views &amp; Website Clicks</div><div class="chart-wrap"><canvas id="ttUkChart"></canvas></div></div>
+    <div id="tt-uk-table"></div>
+  </div>
+</div>
+<script>
+const WEEKS = {
+  may24: {
+    label: "May 24–28, 2026",
+    facebook: {
+      note: "✅ Facebook organic data via Supermetrics · May 24–28, 2026. Views ↓36.4% WoW; Interactions ↑17% (non-followers ↑22.3%). DE post data unavailable from Supermetrics this week.",
+      kpis: { views:237410, reach:0, posts:9, eng:5544, topViews:47744, topLabel:"Zodiac / Wine Day (US, 05/25)" },
+      pages: [
+        { name:"Groupon US", badge:"us", posts:[
+          { date:"05/25", caption:"Happy Memorial Day 🇺🇸 Today we honor and remember those who served and sacrificed. #MemorialDay", type:"image", views:23771, reach:19067, react:33, cmts:8, shares:3, eng:44, url:"https://www.facebook.com/60004615820_1422018319953913", star:false },
+          { date:"05/25", caption:"Happy Memorial Day 🇺🇸 (photo) Today we honor and remember those who served and sacrificed. #MemorialDay", type:"image", views:24277, reach:19166, react:28, cmts:2, shares:7, eng:37, url:"https://www.facebook.com/60004615820_1422017939953951", star:false },
+          { date:"05/25", caption:"🔮 Your zodiac sign just told you what to drink tonight. Splash Wines on Groupon. #NationalWineDay #Zodiac", type:"image", views:47744, reach:36434, react:19, cmts:15, shares:1, eng:35, url:"https://www.facebook.com/60004615820_1422097259946019", star:true },
+          { date:"05/27", caption:"We're planning our next trip… where should we go? Drop your hidden gems 👇", type:"image", views:20362, reach:15476, react:1, cmts:6, shares:0, eng:7, url:"https://www.facebook.com/60004615820_1423831989772546", star:false }
+        ]},
+        { name:"Groupon UK", badge:"uk", posts:[
+          { date:"05/25", caption:"Can you blame us? #GrouponUK", type:"image", views:20762, reach:14958, react:3, cmts:3, shares:0, eng:6, url:"https://www.facebook.com/228873308721_1439421861563882", star:false }
+        ]},
+        { name:"Groupon Deutschland", badge:"de", posts:[
+          { date:"05/25", caption:"Good thing we have a Groupon for that ;) #GrouponDE", type:"image", views:0, reach:0, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/groupon.de/posts/pfbid0QXNbR3GuhMZtdxfLP6E4QxVumXb1ujNzJ54scvjp5j1pWpYHkNVSthwgG74Unb4Rl", star:false }
+        ]},
+        { name:"Groupon France", badge:"fr", posts:[
+          { date:"05/25", caption:"Honnêtement, on comprend pourquoi #GrouponFR", type:"image", views:8961, reach:6751, react:3, cmts:5, shares:0, eng:8, url:"https://www.facebook.com/312495035218_1425836199587224", star:false },
+          { date:"05/25", caption:"Choisis un numéro et lasse-toi porter #GrouponFR", type:"image", views:8097, reach:6241, react:1, cmts:1, shares:0, eng:2, url:"https://www.facebook.com/312495035218_1425836152920562", star:false }
+        ]},
+        { name:"Groupon España", badge:"es", posts:[
+          { date:"05/25", caption:"¿Y quién nos lo va a reprochar? #GrouponES", type:"image", views:3762, reach:2792, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/359572171783_1426452752848912", star:false }
+        ]}
+      ]
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:272446, ownedViews:16072, posts:7, likes:46, likesSub:"7 posts · US · UK · FR · ES", shares:23, topViews:9412, topLabel:"Zodiac / Wine Day (05/25)" },
+        collabNote: "✅ 7 IG feed posts May 24–28 · US (3) · UK (1) · FR (2) · ES (1). Account-level views 272,446 (↓55.6% WoW); top post: Zodiac/Wine Day at 9,412 views.",
+        accounts: [
+          { name:"Groupon U.S.", badge:"us", posts:[
+            { date:"05/25", caption:"Happy Memorial Day 🇺🇸 Today we honor and remember those who served and sacrificed. Grateful for their sacrifice. #MemorialDay", type:"image", views:1746, reach:1093, likes:9, shares:2, cmts:1, saves:0, url:"https://www.instagram.com/p/DYw6MxHnBFv/", collab:false },
+            { date:"05/25", caption:"your zodiac said what it said 🔮🍷 comment your sign + DM WINE for Splash Wines deal 🍾 #NationalWineDay #Groupon #Zodiac", type:"image", views:9412, reach:6371, likes:29, shares:18, cmts:9, saves:9, url:"https://www.instagram.com/p/DYxH9HIDlke/", collab:false },
+            { date:"05/27", caption:"don't gatekeep your vacation spot… i'm trying to go ✈️👇", type:"image", views:1193, reach:756, likes:5, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DY2RhJFgcg2/", collab:false }
+          ]},
+          { name:"Groupon UK", badge:"uk", posts:[
+            { date:"05/25", caption:"Can you blame us? #GrouponUK", type:"image", views:883, reach:593, likes:1, shares:3, cmts:4, saves:0, url:"https://www.instagram.com/p/DYwhnsUAF35/", collab:false }
+          ]},
+          { name:"Groupon France", badge:"fr", posts:[
+            { date:"05/25", caption:"Honnêtement, on comprend pourquoi #GrouponFR", type:"image", views:841, reach:573, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DYwf3uoDH0C/", collab:false },
+            { date:"05/25", caption:"Choisis un numéro et lasse-toi porter #GrouponFR", type:"image", views:540, reach:330, likes:0, shares:0, cmts:9, saves:0, url:"https://www.instagram.com/p/DYwf4-NDJ1c/", collab:false }
+          ]},
+          { name:"Groupon España", badge:"es", posts:[
+            { date:"05/25", caption:"¿Y quién nos lo va a reprochar? #GrouponES", type:"image", views:1457, reach:917, likes:2, shares:0, cmts:9, saves:0, url:"https://www.instagram.com/p/DYwTVy-jn13/", collab:false }
+          ]}
+        ]
+      },
+      stories: {
+        kpis: { count:3, countSub:"3 slides · 5/27 WWE Software (BBH 5/24 data unavailable in export)", totalViews:2108, totalReach:1937, topViews:913, topLabel:"WWE Software Slide 1 (05/27)" },
+        accounts: [
+          { name:"Groupon U.S.", badge:"us", stories:[
+            { pub:"05/27 10:52", dur:"—", views:913, reach:831, likes:0, replies:1, nav:822, pv:1, url:"https://www.instagram.com/stories/groupon/3906443377876707047", top:true },
+            { pub:"05/27 10:52", dur:"—", views:626, reach:583, likes:0, replies:0, nav:584, pv:1, url:"https://www.instagram.com/stories/groupon/3906443422059637065", top:false },
+            { pub:"05/27 10:54", dur:"—", views:569, reach:523, likes:0, replies:2, nav:532, pv:4, url:"https://www.instagram.com/stories/groupon/3906444169023176521", top:false }
+          ]}
+        ]
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:5090, reach:2280, likes:87, shares:13, comments:0, clicks:44, growth:"+27", growthSub:"36 new · 9 lost · May 24–27 (4-day window; Thu pending)" },
+        daily: [
+          { day:"Sun 5/24", views:1508, reached:833, pv:268, likes:39, shares:2, cmts:0, clicks:12, newF:9, lost:4, net:5 },
+          { day:"Mon 5/25", views:1392, reached:724, pv:216, likes:24, shares:3, cmts:0, clicks:15, newF:7, lost:0, net:7 },
+          { day:"Tue 5/26", views:1160, reached:363, pv:208, likes:12, shares:2, cmts:0, clicks:11, newF:4, lost:2, net:2 },
+          { day:"Wed 5/27", views:1030, reached:360, pv:197, likes:12, shares:6, cmts:0, clicks:6, newF:16, lost:3, net:13 }
+        ]
+      },
+      uk: {
+        kpis: { views:56, reach:13, likes:0, shares:3, comments:0, clicks:3, growth:"0", growthSub:"0 new · 0 lost · May 24–26 (3-day window)" },
+        daily: [
+          { day:"Sun 5/24", views:18, reached:4, pv:7, likes:0, shares:1, cmts:0, clicks:1, newF:0, lost:0, net:0 },
+          { day:"Mon 5/25", views:15, reached:9, pv:10, likes:0, shares:2, cmts:0, clicks:2, newF:0, lost:0, net:0 },
+          { day:"Tue 5/26", views:23, reached:0, pv:10, likes:0, shares:0, cmts:0, clicks:0, newF:0, lost:0, net:0 }
+        ]
+      }
+    }
+  },
+  may17: {
+    label: "May 17–21, 2026",
+    facebook: {
+      note: "✅ Facebook data via Supermetrics — May 17–21, 2026 (Sun–Thu cutoff). All post types across US, UK, DE, FR, and ES.",
+      kpis: { views:282432, reach:220441, posts:20, eng:180, topViews:59425, topLabel:"What can I say? 🤭💚 (UK, 05/18)" },
+      pages: [
+        { name:"Groupon US", badge:"us", posts:[
+          { date:"05/17", caption:"AAPI Food Series 3: @indiapassagenyc 🇮🇳 Click the link for this deal! #groupon #aapimonth", type:"reel", views:11331, reach:11889, react:8, cmts:1, shares:1, eng:10, url:"https://www.facebook.com/60004615820_1415072427315169", star:false },
+          { date:"05/18", caption:"It's International Museum Day! 🏙️ Visiting one doesn't have to cost an arm and a leg", type:"reel", views:16725, reach:16257, react:39, cmts:2, shares:0, eng:41, url:"https://www.facebook.com/60004615820_1415957720559973", star:true },
+          { date:"05/18", caption:"Stop scrolling. Pick a number. Whatever you pick — it's probably already on Groupon", type:"image", views:22866, reach:15949, react:3, cmts:12, shares:0, eng:15, url:"https://www.facebook.com/60004615820_1416108597211552", star:false },
+          { date:"05/19", caption:"The sales intern did their big one making this 🪩", type:"image", views:25809, reach:20119, react:15, cmts:6, shares:0, eng:21, url:"https://www.facebook.com/60004615820_1416743313814747", star:false },
+          { date:"05/19", caption:"This notification > anything in your inbox right now. 😂", type:"reel", views:28620, reach:22786, react:30, cmts:3, shares:3, eng:36, url:"https://www.facebook.com/60004615820_1417023380453407", star:false },
+          { date:"05/20", caption:"BBQ hits. But so do these. 🎯 Swipe for Memorial Weekend plans that'll make the group chat go off", type:"carousel", views:20209, reach:15011, react:2, cmts:1, shares:0, eng:3, url:"https://www.facebook.com/60004615820_1417835340372211", star:false },
+          { date:"05/20", caption:"You don't have to spend the whole weekend at a BBQ. (Unless you want to — we respect it. 🨡)", type:"carousel", views:25068, reach:17767, react:7, cmts:10, shares:0, eng:17, url:"https://www.facebook.com/60004615820_1417836290372116", star:false },
+          { date:"05/21", caption:"Just in time for summer ☀️ Click the link for our @flxmovepilates deal!", type:"reel", views:12004, reach:12151, react:5, cmts:3, shares:0, eng:8, url:"https://www.facebook.com/60004615820_1418692373619841", star:false }
+        ]},
+        { name:"Groupon UK", badge:"uk", posts:[
+          { date:"05/18", caption:"What can I say? 🤭💚 #GrouponUK #matcha", type:"reel", views:59425, reach:43903, react:12, cmts:0, shares:0, eng:12, url:"https://www.facebook.com/228873308721_1433601015479300", star:true },
+          { date:"05/19", caption:"So I heard we're changing logos? @spotify #Spotifylogo", type:"image", views:13014, reach:9217, react:4, cmts:2, shares:0, eng:6, url:"https://www.facebook.com/228873308721_1434388838733851", star:false },
+          { date:"05/20", caption:"Unlimited sushi >>> 💚 Book your next sushi date here #GrouponUK #Sushi", type:"reel", views:0, reach:995, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/228873308721_1435313721974696", star:false },
+          { date:"05/21", caption:"We know you're running out of gift ideas too #GrouponUK", type:"image", views:11847, reach:7788, react:2, cmts:2, shares:0, eng:4, url:"https://www.facebook.com/228873308721_1436164318556303", star:false }
+        ]},
+        { name:"Groupon France", badge:"fr", posts:[
+          { date:"05/19", caption:"Alors, ça donne quoi? #Spotify #GrouponFR", type:"image", views:6562, reach:4869, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/312495035218_1421036560067188", star:false },
+          { date:"05/21", caption:"Qui d'autre?? #GrouponFR", type:"image", views:8725, reach:6478, react:1, cmts:2, shares:0, eng:3, url:"https://www.facebook.com/312495035218_1422652986572212", star:true }
+        ]},
+        { name:"Groupon Deutschland", badge:"de", posts:[
+          { date:"05/18", caption:"A massage a day keeps the doctor away 🤭💚 #Massage #GrouponDE", type:"image", views:4583, reach:3360, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/246925978537_1439046668260553", star:true },
+          { date:"05/19", caption:"So I heard we're changing logos? @spotify #Spotifylogo", type:"image", views:5264, reach:4010, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/246925978537_1439846188180601", star:false },
+          { date:"05/21", caption:"We both know you're running out of gift ideas #GrouponDE", type:"image", views:4135, reach:3145, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/246925978537_1441725054659381", star:false }
+        ]},
+        { name:"Groupon España", badge:"es", posts:[
+          { date:"05/18", caption:"Tu verano se está descongelando… y los vuelos no esperan. Consigue un 5% de descuento en tu seguro de viaje", type:"carousel", views:2392, reach:1808, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/359572171783_1420697253424462", star:false },
+          { date:"05/20", caption:"¿Qué tal nos ha quedado? @spotify #Spotify", type:"image", views:1682, reach:1307, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/359572171783_1422139503280237", star:false },
+          { date:"05/21", caption:"Los dos sabemos que te estás quedando sin ideas para regalos 🤭 #GrouponES", type:"image", views:2171, reach:1632, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/359572171783_1423248653169322", star:false }
+        ]}
+      ]
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:37026, ownedViews:37026, posts:19, likes:127, likesSub:"US · UK · DE · ES · FR combined", shares:77, topViews:6217, topLabel:"AAPI Food Series 3 (US, 05/17)" },
+        collabNote: "",
+        accounts: [
+          { name:"Groupon U.S.", badge:"us", posts:[
+            { date:"05/17", caption:"AAPI Food Series 3: @indiapassagenyc 🇮🇳 Comment NAAN for this deal! #groupon #aapimonth", type:"reel", views:6217, reach:5232, likes:39, shares:2, cmts:7, saves:1, url:"https://www.instagram.com/reel/DYchi9-vP3e/", collab:false },
+            { date:"05/18", caption:"It's International Museum Day! 🏙️ Visiting one doesn't have to cost an arm and a leg", type:"reel", views:3227, reach:2707, likes:19, shares:1, cmts:0, saves:0, url:"https://www.instagram.com/reel/DYfGdaAiRIr/", collab:false },
+            { date:"05/18", caption:"stop. pick a number. trust the process. 🎯", type:"image", views:2600, reach:1648, likes:6, shares:2, cmts:3, saves:1, url:"https://www.instagram.com/p/DYfiB9YhHN6/", collab:false },
+            { date:"05/19", caption:"green recognizes green 💚🪩", type:"image", views:3327, reach:2033, likes:12, shares:14, cmts:3, saves:0, url:"https://www.instagram.com/p/DYhaQYQgO0y/", collab:false },
+            { date:"05/19", caption:"the notification we've all been waiting for 🙌", type:"reel", views:4287, reach:2730, likes:11, shares:17, cmts:3, saves:2, url:"https://www.instagram.com/reel/DYiGpkLATSg/", collab:false },
+            { date:"05/20", caption:"BBQ hits. But so do these. 🎯 Swipe for Memorial Weekend plans #MemorialWeekend #Groupon", type:"carousel", views:2730, reach:1253, likes:4, shares:0, cmts:1, saves:0, url:"https://www.instagram.com/p/DYkP81PnOam/", collab:false },
+            { date:"05/21", caption:"THIS is girlhood 💪 Comment FLEX for our @flxmovepilates deal!", type:"reel", views:3147, reach:2634, likes:5, shares:10, cmts:6, saves:1, url:"https://www.instagram.com/reel/DYm03McDY78/", collab:false }
+          ]},
+          { name:"Groupon UK", badge:"uk", posts:[
+            { date:"05/18", caption:"What can I say? 🤭💚 #GrouponUK #matcha", type:"reel", views:933, reach:612, likes:2, shares:11, cmts:5, saves:1, url:"https://www.instagram.com/reel/DYfAHE1Idh7/", collab:false },
+            { date:"05/19", caption:"So I heard we're changing logos? @spotify #Spotifylogo", type:"image", views:1110, reach:695, likes:4, shares:0, cmts:2, saves:1, url:"https://www.instagram.com/p/DYhY_nMI6Dw/", collab:false },
+            { date:"05/20", caption:"Unlimited sushi >>> 💚 Comment sushi for the link to the deal #GrouponUK #Sushi", type:"reel", views:820, reach:640, likes:11, shares:16, cmts:9, saves:3, url:"https://www.instagram.com/reel/DYkBFlto_Yx/", collab:false },
+            { date:"05/21", caption:"We know you're running out of gift ideas too #GrouponUK", type:"image", views:593, reach:397, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DYmnGHaoMrA/", collab:false }
+          ]},
+          { name:"Groupon Deutschland", badge:"de", posts:[
+            { date:"05/18", caption:"A massage a day keeps the doctor away 🤭💚 #Massage #GrouponDE", type:"image", views:289, reach:195, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DYfB1fZNzNm/", collab:false },
+            { date:"05/19", caption:"So I heard we're changing logos? @spotify #Spotifylogo", type:"image", views:998, reach:665, likes:1, shares:1, cmts:0, saves:0, url:"https://www.instagram.com/p/DYhZTGgtQKR/", collab:false },
+            { date:"05/21", caption:"We both know you're running out of gift ideas #GrouponDE", type:"image", views:682, reach:492, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DYmnskttA90/", collab:false }
+          ]},
+          { name:"Groupon España", badge:"es", posts:[
+            { date:"05/18", caption:"Tu verano se está descongelando… y los vuelos no esperan #GrouponES", type:"carousel", views:2778, reach:1366, likes:5, shares:0, cmts:4, saves:0, url:"https://www.instagram.com/p/DYfERkSCiKB/", collab:false },
+            { date:"05/20", caption:"¿Qué tal nos ha quedado? @spotify #Spotify", type:"image", views:745, reach:420, likes:5, shares:2, cmts:2, saves:1, url:"https://www.instagram.com/p/DYja4F_ueaM/", collab:false },
+            { date:"05/21", caption:"Los dos sabemos que te estás quedando sin ideas para regalos 🤭 #GrouponES", type:"image", views:953, reach:638, likes:2, shares:0, cmts:2, saves:0, url:"https://www.instagram.com/p/DYmoUbIqZqg/", collab:false }
+          ]},
+          { name:"Groupon France", badge:"fr", posts:[
+            { date:"05/19", caption:"Alors, ça donne quoi? #Spotify #GrouponFR", type:"image", views:841, reach:572, likes:0, shares:1, cmts:3, saves:0, url:"https://www.instagram.com/p/DYhrT9Xs2na/", collab:false },
+            { date:"05/21", caption:"Qui d'autre?? #GrouponFR", type:"image", views:749, reach:520, likes:1, shares:0, cmts:1, saves:0, url:"https://www.instagram.com/p/DYmn5GtMGcX/", collab:false }
+          ]}
+        ]
+      },
+      stories: {
+        kpis: { count:0, countSub:"pending", totalViews:0, totalReach:0, topViews:0, topLabel:"pending" },
+        accounts: []
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:14458, reach:8824, likes:488, shares:36, comments:13, clicks:93, growth:"+59", growthSub:"90 new · 31 lost · May 14–20 (↓18.3% WoW)" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:218, reach:25, likes:4, shares:2, comments:0, clicks:0, growth:"+5", growthSub:"5 new · 0 lost · May 14–20 (↓77.7% WoW)" },
+        daily: []
+      }
+    }
+  },
+  may10: {
+    label: "May 10–14, 2026",
+    facebook: {
+      note: "✅ Full Facebook data sourced from Supermetrics — May 10–14, 2026. All post types across US, UK, DE, FR, and ES.",
+      kpis: { views:203028, reach:167206, posts:13, eng:215, topViews:46420, topLabel:"Honest list photo (US, 05/14)" },
+      pages: [
+        { name:"Groupon US", badge:"us", posts:[
+          { date:"05/10", caption:"Happy Mother's Day 💐 to the ones who raised us…", type:"reel", views:18897, reach:18885, react:10, cmts:13, shares:1, eng:24, url:"https://www.facebook.com/60004615820_1408744431281302", star:false },
+          { date:"05/11", caption:"The Filipino social media intern is having a field day… HR is not. #aapimonth", type:"reel", views:25169, reach:21185, react:17, cmts:17, shares:0, eng:34, url:"https://www.facebook.com/60004615820_1409718674517211", star:false },
+          { date:"05/12", caption:"both are necessary 🔌", type:"image", views:32742, reach:25613, react:44, cmts:0, shares:4, eng:48, url:"https://www.facebook.com/60004615820_1410646944424384", star:false },
+          { date:"05/13", caption:"we have deals. just not that one. 🙂 #groupon", type:"reel", views:8864, reach:8828, react:6, cmts:4, shares:1, eng:11, url:"https://www.facebook.com/60004615820_1411476801008065", star:false },
+          { date:"05/13", caption:"Pack your bags and get ready to wolf out! 🐺🏨 Great Wolf Lodge (Ends 05/16)", type:"image", views:45952, reach:35202, react:6, cmts:0, shares:0, eng:6, url:"https://www.facebook.com/60004615820_1411630957659316", star:false },
+          { date:"05/14", caption:"be honest — how many of these have you actually done? 👇", type:"image", views:46420, reach:35332, react:11, cmts:64, shares:5, eng:80, url:"https://www.facebook.com/60004615820_1412449930910752", star:true }
+        ]},
+        { name:"Groupon UK", badge:"uk", posts:[
+          { date:"05/13", caption:"This really could've been prevented #GrouponUK", type:"reel", views:7241, reach:7518, react:4, cmts:1, shares:0, eng:5, url:"https://www.facebook.com/228873308721_1429077202598348", star:false },
+          { date:"05/14", caption:"Who said date night couldn't be affordable?? #GrouponUK #London", type:"reel", views:3134, reach:3569, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/228873308721_1430069622499106", star:false }
+        ]},
+        { name:"Groupon France", badge:"fr", posts:[
+          { date:"05/13", caption:"👀💚 #GrouponFR", type:"carousel", views:6215, reach:4578, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/312495035218_1415743610596483", star:false },
+          { date:"05/14", caption:"gen z hallelujah 💖💖", type:"image", views:3718, reach:2823, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/312495035218_1416684893835688", star:false }
+        ]},
+        { name:"Groupon Deutschland", badge:"de", posts:[
+          { date:"05/14", caption:"the gen z social team approves this message", type:"image", views:2582, reach:2017, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/246925978537_1435524028612817", star:false }
+        ]},
+        { name:"Groupon España", badge:"es", posts:[
+          { date:"05/13", caption:"👀💚 #GrouponES", type:"carousel", views:1437, reach:1131, react:4, cmts:0, shares:0, eng:4, url:"https://www.facebook.com/359572171783_1416099643884223", star:false },
+          { date:"05/14", caption:"gen z hallelujah", type:"image", views:657, reach:525, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/359572171783_1417019807125540", star:false }
+        ]}
+      ]
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:25270, ownedViews:25270, posts:15, likes:95, likesSub:"All owned posts (no collabs this week)", shares:31, topViews:5155, topLabel:"Filipino intern reel (US, 05/11)" },
+        collabNote: "",
+        accounts: [
+          { name:"Groupon US", badge:"us", posts:[
+            { date:"05/10", caption:"Happy Mother's Day 💐 to the ones who raised us… #mothersday #groupon", type:"reel", views:2067, reach:1623, likes:6, shares:15, cmts:3, saves:0, url:"https://www.instagram.com/reel/DYKSdHtGmr6/", collab:false },
+            { date:"05/11", caption:"The Filipino social media intern is having a field day… HR is not. #aapimonth", type:"reel", views:5155, reach:3887, likes:18, shares:3, cmts:2, saves:0, url:"https://www.instagram.com/reel/DYNE1Q5DZUq/", collab:false },
+            { date:"05/12", caption:"both are necessary 🔌", type:"image", views:2887, reach:1882, likes:6, shares:5, cmts:0, saves:0, url:"https://www.instagram.com/p/DYPweg_DNrm/", collab:false },
+            { date:"05/13", caption:"we have deals. just not that one. 🙂 #groupon", type:"reel", views:2255, reach:1775, likes:33, shares:2, cmts:1, saves:0, url:"https://www.instagram.com/reel/DYSObgGDUa7/", collab:false },
+            { date:"05/13", caption:"Pack your bags and get ready to wolf out! 🐺🏨 Great Wolf Lodge (Ends 05/16)", type:"image", views:4822, reach:3255, likes:4, shares:1, cmts:0, saves:0, url:"https://www.instagram.com/p/DYSp2SBm3u0/", collab:false },
+            { date:"05/14", caption:"how are you spending your money this year? 👀 tally up your points and drop your score below", type:"image", views:1953, reach:1178, likes:5, shares:0, cmts:2, saves:3, url:"https://www.instagram.com/p/DYUzNh7CGpM/", collab:false }
+          ]},
+          { name:"Groupon UK", badge:"uk", posts:[
+            { date:"05/13", caption:"This really could've been prevented #GrouponUK", type:"reel", views:809, reach:661, likes:2, shares:2, cmts:0, saves:0, url:"https://www.instagram.com/reel/DYRrk6Sg_Hj/", collab:false },
+            { date:"05/14", caption:"Who said date night couldn't be affordable?? #GrouponUK #London", type:"reel", views:643, reach:483, likes:13, shares:2, cmts:7, saves:1, url:"https://www.instagram.com/reel/DYUekxZRn5s/", collab:false }
+          ]},
+          { name:"Groupon Deutschland", badge:"de", posts:[
+            { date:"05/13", caption:"Really could've been prevented 🤭 #GrouponDE", type:"reel", views:9, reach:8, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/reel/DYRsDgRtVkB/", collab:false },
+            { date:"05/13", caption:"We both know this could've been prevented #GrouponDE", type:"reel", views:597, reach:515, likes:3, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/reel/DYSPe9_NEqT/", collab:false },
+            { date:"05/14", caption:"the gen z social team approves this message", type:"image", views:493, reach:377, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DYUrnyCtvRh/", collab:false }
+          ]},
+          { name:"Groupon España", badge:"es", posts:[
+            { date:"05/13", caption:"👀💚 #GrouponES", type:"carousel", views:1615, reach:939, likes:3, shares:0, cmts:1, saves:0, url:"https://www.instagram.com/p/DYR8i7-Cg5V/", collab:false },
+            { date:"05/14", caption:"gen z hallelujah", type:"image", views:567, reach:350, likes:1, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DYUq-ISqJN4/", collab:false }
+          ]},
+          { name:"Groupon France", badge:"fr", posts:[
+            { date:"05/13", caption:"👀💚 #GrouponFR", type:"carousel", views:1177, reach:766, likes:3, shares:1, cmts:0, saves:0, url:"https://www.instagram.com/p/DYR9R_NiJpR/", collab:false },
+            { date:"05/14", caption:"gen z hallelujah 💖💖", type:"image", views:1060, reach:768, likes:7, shares:1, cmts:1, saves:0, url:"https://www.instagram.com/p/DYUqs5fCh1O/", collab:false }
+          ]}
+        ]
+      },
+      stories: {
+        kpis: { count:12, countSub:"US (8) · UK (2) · FR (1) · ES (1)", totalViews:5412, totalReach:4908, topViews:789, topLabel:"US — 05/12 06:18" },
+        accounts: [
+          { name:"Groupon US", badge:"us", stories:[
+            { pub:"05/10 09:24", dur:"Static", views:514, reach:470, likes:1, replies:0, nav:472, pv:1, url:"https://www.instagram.com/stories/groupon/3897924823748272910" },
+            { pub:"05/11 08:04", dur:"Static", views:548, reach:489, likes:0, replies:0, nav:489, pv:1, url:"https://www.instagram.com/stories/groupon/3898661710823482956" },
+            { pub:"05/11 08:12", dur:"Static", views:389, reach:357, likes:0, replies:0, nav:362, pv:1, url:"https://www.instagram.com/stories/groupon/3898664557099720965" },
+            { pub:"05/12 06:18", dur:"Static", views:789, reach:707, likes:1, replies:0, nav:433, pv:0, url:"https://www.instagram.com/stories/groupon/3899323157098749897", top:true },
+            { pub:"05/12 06:19", dur:"Static", views:436, reach:400, likes:0, replies:0, nav:404, pv:0, url:"https://www.instagram.com/stories/groupon/3899323340695948454" },
+            { pub:"05/13 06:55", dur:"Static", views:411, reach:377, likes:0, replies:0, nav:379, pv:0, url:"https://www.instagram.com/stories/groupon/3900087217289547834" },
+            { pub:"05/13 07:10", dur:"Static", views:298, reach:275, likes:0, replies:0, nav:283, pv:0, url:"https://www.instagram.com/stories/groupon/3900092566993918474" },
+            { pub:"05/14 07:17", dur:"Static", views:289, reach:272, likes:0, replies:0, nav:278, pv:1, url:"https://www.instagram.com/stories/groupon/3900840777888673097" }
+          ]},
+          { name:"Groupon UK", badge:"uk", stories:[
+            { pub:"05/13 07:13", dur:"Static", views:183, reach:167, likes:0, replies:0, nav:170, pv:1, url:"https://www.instagram.com/stories/grouponuk/3900093607050893617" },
+            { pub:"05/14 07:08", dur:"Static", views:136, reach:127, likes:0, replies:0, nav:133, pv:0, url:"https://www.instagram.com/stories/grouponuk/3900838224395785665" }
+          ]},
+          { name:"Groupon France", badge:"fr", stories:[
+            { pub:"05/13 05:45", dur:"Static", views:277, reach:252, likes:0, replies:0, nav:256, pv:0, url:"https://www.instagram.com/stories/groupon.fr/3900044778524622396" }
+          ]},
+          { name:"Groupon España", badge:"es", stories:[
+            { pub:"05/13 05:50", dur:"Static", views:142, reach:135, likes:0, replies:0, nav:138, pv:0, url:"https://www.instagram.com/stories/grouponspain/3900047132521540527" }
+          ]}
+        ]
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:16620, reach:9328, likes:332, shares:21, comments:49, clicks:0, growth:"+73", growthSub:"102 new · 29 lost · May 6–12 (↑26.9% views WoW)" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:171, reach:19, likes:3, shares:0, comments:0, clicks:6, growth:"+3", growthSub:"3 new · May 6–12 (↓84.7% views WoW)" },
+        daily: []
+      }
+    }
+  },
+  may03: {
+    label: "May 3–7, 2026",
+    facebook: {
+      note: "✅ Full Facebook data sourced from Supermetrics — May 3–6, 2026. All post types included (photos, carousels, reels) across US, UK, DE, FR, and ES.",
+      kpis: { views:265753, reach:202744, posts:14, eng:192, topViews:58895, topLabel:"Met Gala carousel (US)" },
+      pages: [
+        { name:"Groupon US", badge:"us", posts:[
+          { date:"05/03", caption:"A gentle reminder to take care of yourself.", type:"image", views:30048, reach:22369, react:17, cmts:9, shares:1, eng:27, url:"https://www.facebook.com/permalink.php?story_fbid=1402443901911355&id=60004615820", star:false },
+          { date:"05/03", caption:"An Asian boy who's going to be okay… xianglahotpot", type:"reel", views:18348, reach:17819, react:14, cmts:2, shares:1, eng:17, url:"https://www.facebook.com/permalink.php?story_fbid=1402531988569213&id=60004615820", star:false },
+          { date:"05/04", caption:"spend less, you will 🥷 #groupon (v1)", type:"image", views:20355, reach:16369, react:10, cmts:0, shares:0, eng:10, url:"https://www.facebook.com/permalink.php?story_fbid=1403276368494775&id=60004615820", star:false },
+          { date:"05/04", caption:"spend less, you will 🥷 #groupon (v2)", type:"image", views:21492, reach:15799, react:4, cmts:5, shares:1, eng:10, url:"https://www.facebook.com/permalink.php?story_fbid=1403303898492022&id=60004615820", star:false },
+          { date:"05/04", caption:"Click the link to shop beautiful bouquets for Mother's Day 💐", type:"image", views:27353, reach:20063, react:6, cmts:13, shares:1, eng:20, url:"https://www.facebook.com/permalink.php?story_fbid=1403405818481830&id=60004615820", star:false },
+          { date:"05/05", caption:"Cinco de Mayo… but do you actually know what you're celebrating? 👀", type:"carousel", views:29380, reach:22072, react:20, cmts:5, shares:4, eng:29, url:"https://www.facebook.com/permalink.php?story_fbid=1404143448408067&id=60004615820", star:false },
+          { date:"05/05", caption:"They ate with their outfit, we ate with our savings ✨ #metgala", type:"carousel", views:58895, reach:41112, react:26, cmts:20, shares:0, eng:46, url:"https://www.facebook.com/permalink.php?story_fbid=1404182715070807&id=60004615820", star:true },
+          { date:"05/06", caption:"We are PAWtrons of the arts 🐾 museumofthedog", type:"reel", views:9406, reach:9882, react:8, cmts:0, shares:0, eng:8, url:"https://www.facebook.com/permalink.php?story_fbid=1405089991646746&id=60004615820", star:false }
+        ]},
+        { name:"Groupon UK", badge:"uk", posts:[
+          { date:"05/04", caption:"May the 4th be with you 💚 #GrouponUK #StarWars", type:"image", views:16953, reach:11990, react:5, cmts:3, shares:0, eng:8, url:"https://www.facebook.com/permalink.php?story_fbid=1421561553349913&id=228873308721", star:false },
+          { date:"05/05", caption:"Have no fear, we're here to help 🤭 #GrouponUK", type:"carousel", views:18365, reach:13398, react:2, cmts:0, shares:0, eng:2, url:"https://www.facebook.com/permalink.php?story_fbid=1422332496606152&id=228873308721", star:false }
+        ]},
+        { name:"Groupon Deutschland", badge:"de", posts:[
+          { date:"05/05", caption:"I hope you didn't forget it's on Sunday 👀 #MothersDay #GrouponDE", type:"carousel", views:4924, reach:3708, react:2, cmts:0, shares:0, eng:2, url:"https://www.facebook.com/permalink.php?story_fbid=1427843256047561&id=246925978537", star:false }
+        ]},
+        { name:"Groupon France", badge:"fr", posts:[
+          { date:"05/06", caption:"👀💚 #GrouponFR", type:"carousel", views:6403, reach:4770, react:0, cmts:4, shares:0, eng:4, url:"https://www.facebook.com/permalink.php?story_fbid=1409577234546454&id=312495035218", star:false }
+        ]},
+        { name:"Groupon España", badge:"es", posts:[
+          { date:"05/03", caption:"El regalo perfecto 💚🤭 📍 Serena Spa Melía Barcelona Sky", type:"reel", views:2116, reach:2118, react:4, cmts:2, shares:0, eng:6, url:"https://www.facebook.com/permalink.php?story_fbid=1407624844731703&id=359572171783", star:false },
+          { date:"05/06", caption:"👀💚 #GrouponES", type:"carousel", views:1715, reach:1275, react:0, cmts:3, shares:0, eng:3, url:"https://www.facebook.com/permalink.php?story_fbid=1410118127815708&id=359572171783", star:false }
+        ]}
+      ]
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:37795, ownedViews:37795, posts:15, likes:195, likesSub:"All owned posts (no collabs this week)", shares:109, topViews:6488, topLabel:"Met Gala carousel (US)" },
+        collabNote: "",
+        accounts: [
+          { name:"Groupon US", badge:"us", posts:[
+            { date:"05/03", caption:"treat yo self energy only ✨", type:"image", views:1962, reach:1271, likes:5, shares:1, cmts:2, saves:1, url:"https://www.instagram.com/p/DX4QsdnjIDr/", collab:false },
+            { date:"05/03", caption:"An Asian boy who's going to be okay… @xianglahotpot", type:"reel", views:5009, reach:3989, likes:27, shares:3, cmts:4, saves:1, url:"https://www.instagram.com/reel/DX4ecE5hMJW/", collab:false },
+            { date:"05/04", caption:"Comment FLOWERS for Mother's Day bouquets 💐", type:"image", views:1953, reach:1267, likes:4, shares:0, cmts:4, saves:0, url:"https://www.instagram.com/p/DX7DcAekjHZ/", collab:false },
+            { date:"05/04", caption:"spend less, you will 🥷 #groupon", type:"image", views:2056, reach:1400, likes:14, shares:1, cmts:1, saves:0, url:"https://www.instagram.com/p/DX6ys53lAPL/", collab:false },
+            { date:"05/05", caption:"They ate with their outfit, we ate with our savings ✨ #metgala", type:"carousel", views:6488, reach:3418, likes:15, shares:0, cmts:5, saves:2, url:"https://www.instagram.com/p/DX9bxPSja9r/", collab:false },
+            { date:"05/05", caption:"Cinco de Mayo… do you actually know what you're celebrating? 👀", type:"carousel", views:3594, reach:1880, likes:7, shares:2, cmts:2, saves:2, url:"https://www.instagram.com/p/DX9VfAVDfR3/", collab:false },
+            { date:"05/06", caption:"We are PAWtrons of the arts 🐾 @museumofthedog", type:"reel", views:2713, reach:2187, likes:21, shares:1, cmts:10, saves:2, url:"https://www.instagram.com/reel/DYAM6LcBO43/", collab:false },
+            { date:"05/07", caption:"no red flags here, just green ones and deals 💚", type:"image", views:1923, reach:1292, likes:6, shares:2, cmts:2, saves:0, url:"https://www.instagram.com/p/DYCqxyMHJoe/", collab:false },
+            { date:"05/07", caption:"AAPI Month Food Series 2: @sushimambony 🍣", type:"reel", views:3176, reach:2354, likes:22, shares:55, cmts:4, saves:4, url:"https://www.instagram.com/reel/DYC4fxnB51f/", collab:false }
+          ]},
+          { name:"Groupon UK", badge:"uk", posts:[
+            { date:"05/04", caption:"May the 4th be with you 💚 #GrouponUK #StarWars", type:"image", views:606, reach:408, likes:3, shares:0, cmts:2, saves:0, url:"https://www.instagram.com/p/DX637HtiDwa/", collab:false },
+            { date:"05/05", caption:"Have no fear, we're here to help 🤭 #GrouponUK", type:"carousel", views:1293, reach:685, likes:2, shares:13, cmts:7, saves:0, url:"https://www.instagram.com/p/DX9Vb5-CASs/", collab:false }
+          ]},
+          { name:"Groupon Deutschland", badge:"de", posts:[
+            { date:"05/05", caption:"I hope you didn't forget it's on Sunday 👀 #MothersDay #GrouponDE", type:"carousel", views:789, reach:362, likes:2, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DX9WmbODS4j/", collab:false }
+          ]},
+          { name:"Groupon France", badge:"fr", posts:[
+            { date:"05/06", caption:"👀💚 #GrouponFR", type:"carousel", views:1053, reach:564, likes:1, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DX_rF9-jIbN/", collab:false }
+          ]},
+          { name:"Groupon España", badge:"es", posts:[
+            { date:"05/03", caption:"El regalo perfecto 💚🤭 📍 Serena Spa Melía Barcelona Sky", type:"reel", views:4034, reach:2937, likes:65, shares:31, cmts:17, saves:7, url:"https://www.instagram.com/reel/DX31xa6uPR4/", collab:false },
+            { date:"05/06", caption:"👀💚 #GrouponES", type:"carousel", views:1146, reach:572, likes:1, shares:0, cmts:6, saves:0, url:"https://www.instagram.com/p/DX_q9dnjR10/", collab:false }
+          ]}
+        ]
+      },
+      stories: {
+        kpis: { count:17, countSub:"US (10) · UK (4) · FR (1) · ES (2)", totalViews:6341, totalReach:5747, topViews:701, topLabel:"US — 05/04 06:41" },
+        accounts: [
+          { name:"Groupon US", badge:"us", stories:[
+            { pub:"05/04 06:41", dur:"Static", views:701, reach:634, likes:3, replies:0, nav:631, pv:5, url:"https://www.instagram.com/stories/groupon/3889647020038529338", top:true },
+            { pub:"05/04 09:03", dur:"Static", views:461, reach:414, likes:1, replies:0, nav:415, pv:1, url:"https://www.instagram.com/stories/groupon/3889718507990793853" },
+            { pub:"05/05 06:18", dur:"15s", views:590, reach:524, likes:0, replies:0, nav:546, pv:1, url:"https://www.instagram.com/stories/groupon/3890360348910152747" },
+            { pub:"05/05 07:13", dur:"Static", views:459, reach:406, likes:0, replies:0, nav:421, pv:1, url:"https://www.instagram.com/stories/groupon/3890387970887687271" },
+            { pub:"05/06 08:26", dur:"Static", views:552, reach:503, likes:0, replies:0, nav:488, pv:3, url:"https://www.instagram.com/stories/groupon/3891149266681150192" },
+            { pub:"05/06 08:26", dur:"Static", views:357, reach:334, likes:0, replies:0, nav:325, pv:0, url:"https://www.instagram.com/stories/groupon/3891149299069588506" },
+            { pub:"05/06 08:26", dur:"Static", views:317, reach:295, likes:0, replies:0, nav:297, pv:0, url:"https://www.instagram.com/stories/groupon/3891149330073857925" },
+            { pub:"05/06 08:26", dur:"Static", views:293, reach:278, likes:0, replies:0, nav:276, pv:0, url:"https://www.instagram.com/stories/groupon/3891149376404170576" },
+            { pub:"05/06 08:26", dur:"Static", views:280, reach:262, likes:0, replies:0, nav:266, pv:0, url:"https://www.instagram.com/stories/groupon/3891149568134216482" },
+            { pub:"05/06 09:22", dur:"30s", views:547, reach:496, likes:1, replies:0, nav:266, pv:0, url:"https://www.instagram.com/stories/groupon/3891177201516778022" }
+          ]},
+          { name:"Groupon UK", badge:"uk", stories:[
+            { pub:"05/04 07:29", dur:"Static", views:174, reach:159, likes:0, replies:0, nav:159, pv:2, url:"https://www.instagram.com/stories/grouponuk/3889671434251299881" },
+            { pub:"05/04 07:33", dur:"35s", views:109, reach:101, likes:1, replies:0, nav:103, pv:0, url:"https://www.instagram.com/stories/grouponuk/3889673010512700500" },
+            { pub:"05/04 07:35", dur:"15s", views:110, reach:95, likes:0, replies:0, nav:100, pv:1, url:"https://www.instagram.com/stories/grouponuk/3889674375246957618" },
+            { pub:"05/05 06:28", dur:"Static", views:292, reach:267, likes:0, replies:0, nav:259, pv:0, url:"https://www.instagram.com/stories/grouponuk/3890365305454777313" }
+          ]},
+          { name:"Groupon France", badge:"fr", stories:[
+            { pub:"05/06 04:06", dur:"Static", views:336, reach:313, likes:0, replies:0, nav:309, pv:1, url:"https://www.instagram.com/stories/groupon.fr/3891018477821778702" }
+          ]},
+          { name:"Groupon España", badge:"es", stories:[
+            { pub:"05/04 07:30", dur:"39s", views:408, reach:368, likes:1, replies:0, nav:389, pv:2, url:"https://www.instagram.com/stories/grouponspain/3889671763068254214" },
+            { pub:"05/06 04:06", dur:"Static", views:355, reach:298, likes:0, replies:0, nav:326, pv:5, url:"https://www.instagram.com/stories/grouponspain/3891018791740310161" }
+          ]}
+        ]
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:6378, reach:3413, likes:149, shares:12, comments:6, clicks:60, growth:"+24", growthSub:"40 new · 16 lost · Sun–Wed 5/3–5/6" },
+        daily: [
+          { day:"Sun 5/3", views:2034, reached:1225, pv:220, likes:55, shares:5, cmts:2, clicks:17, newF:7, lost:8, net:-1 },
+          { day:"Mon 5/4", views:1112, reached:592, pv:183, likes:32, shares:2, cmts:0, clicks:13, newF:7, lost:2, net:5 },
+          { day:"Tue 5/5", views:1666, reached:995, pv:172, likes:31, shares:4, cmts:4, clicks:13, newF:15, lost:2, net:13 },
+          { day:"Wed 5/6", views:1566, reached:601, pv:217, likes:31, shares:1, cmts:0, clicks:17, newF:11, lost:4, net:7 }
+        ]
+      },
+      uk: {
+        kpis: { views:1050, reach:934, likes:38, shares:6, comments:3, clicks:1, growth:"+4", growthSub:"4 new · 0 lost · Sun–Wed 5/3–5/6" },
+        daily: [
+          { day:"Sun 5/3", views:31, reached:0, pv:13, likes:0, shares:0, cmts:0, clicks:1, newF:0, lost:0, net:0 },
+          { day:"Mon 5/4", views:948, reached:923, pv:25, likes:37, shares:6, cmts:1, clicks:0, newF:2, lost:0, net:2 },
+          { day:"Tue 5/5", views:47, reached:11, pv:14, likes:1, shares:0, cmts:2, clicks:0, newF:1, lost:0, net:1 },
+          { day:"Wed 5/6", views:24, reached:0, pv:12, likes:0, shares:0, cmts:0, clicks:0, newF:1, lost:0, net:1 }
+        ]
+      }
+    }
+  },
+  apr26: {
+    label: "Apr 26–30, 2026",
+    facebook: {
+      note: "✅ Full Facebook data sourced from Supermetrics — Apr 26–30, 2026. All post types across US, UK, DE, and ES (no FR posts this week).",
+      kpis: { views:177901, reach:138895, posts:9, eng:97, topViews:37407, topLabel:"Sign carousel (US Apr 26)" },
+      pages: [
+        { name:"Groupon US", badge:"us", posts:[
+          { date:"04/26", caption:"We're not saying it's a sign… but it's definitely a sign 👀💚", type:"carousel", views:37407, reach:23707, react:9, cmts:6, shares:0, eng:15, url:"https://www.facebook.com/permalink.php?story_fbid=1396371652518580&id=60004615820", star:true },
+          { date:"04/27", caption:"Mother's Day is May 10th — shop now 💚 #MothersDay", type:"image", views:22320, reach:17573, react:3, cmts:2, shares:0, eng:5, url:"https://www.facebook.com/permalink.php?story_fbid=1397606219061790&id=60004615820", star:false },
+          { date:"04/28", caption:"Suddenly, I can't move… 🥰 (chinchilla Bronx Zoo)", type:"reel", views:26191, reach:22305, react:8, cmts:5, shares:0, eng:13, url:"https://www.facebook.com/permalink.php?story_fbid=1398409022314843&id=60004615820", star:false },
+          { date:"04/29", caption:"sliding into summer the RIGHT way 😂 Camelback Resort", type:"image", views:33353, reach:26150, react:1, cmts:3, shares:0, eng:4, url:"https://www.facebook.com/permalink.php?story_fbid=1399134175575661&id=60004615820", star:false },
+          { date:"04/29", caption:"Ever had cuteness aggression over a painting? Museum of the Dog", type:"reel", views:11910, reach:12092, react:16, cmts:5, shares:0, eng:21, url:"https://www.facebook.com/permalink.php?story_fbid=1399298072225938&id=60004615820", star:false },
+          { date:"04/30", caption:"Head over shell for you! 🐢 Bronx Zoo tortoise", type:"reel", views:23473, reach:20779, react:20, cmts:7, shares:1, eng:28, url:"https://www.facebook.com/permalink.php?story_fbid=1400070455482033&id=60004615820", star:false }
+        ]},
+        { name:"Groupon UK", badge:"uk", posts:[
+          { date:"04/29", caption:"Have you booked your mystery holiday for this summer yet? 💚", type:"image", views:14356, reach:10465, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/permalink.php?story_fbid=1417321227107279&id=228873308721", star:false }
+        ]},
+        { name:"Groupon Deutschland", badge:"de", posts:[
+          { date:"04/29", caption:"Time to stop gifting things and start gifting memories 💚 #MothersDay", type:"image", views:6725, reach:4203, react:1, cmts:8, shares:0, eng:9, url:"https://www.facebook.com/permalink.php?story_fbid=1422715966560290&id=246925978537", star:false }
+        ]},
+        { name:"Groupon España", badge:"es", posts:[
+          { date:"04/29", caption:"Deja de regalar objetos. Empieza a regalar experiencias 💚", type:"image", views:2166, reach:1621, react:0, cmts:1, shares:0, eng:1, url:"https://www.facebook.com/permalink.php?story_fbid=1404491568378364&id=359572171783", star:false }
+        ]}
+      ]
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:873039, ownedViews:31548, posts:13, likes:48645, likesSub:"48,551 from collab reel (Noe Murillo)", shares:1772, topViews:841491, topLabel:"Noe Murillo collab reel" },
+        collabNote: "⭐ Noe Murillo collab reel (04/28) drove 841,491 views — well above owned content. Excluded from owned views KPI.",
+        accounts: [
+          { name:"Groupon US", badge:"us", posts:[
+            { date:"04/26", caption:"We're not saying it's a sign… 👀💚", type:"carousel", views:4565, reach:2196, likes:10, shares:35, cmts:0, saves:1, url:"https://www.instagram.com/p/DXmWEmslCzy/", collab:false },
+            { date:"04/27", caption:"What you think you're booking vs what you actually book 👀", type:"carousel", views:2637, reach:1234, likes:5, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DXpIlp0DUrN/", collab:false },
+            { date:"04/27", caption:"We're not here to stress you out… #MothersDay #Groupon", type:"image", views:2055, reach:1312, likes:4, shares:0, cmts:0, saves:1, url:"https://www.instagram.com/p/DXpdN0xjHwK/", collab:false },
+            { date:"04/28", caption:"@groupon Solo Lunch at @seasideonthepier — Noe Murillo collab ⭐", type:"reel", views:841491, reach:0, likes:48551, shares:1691, cmts:337, saves:0, url:"https://www.instagram.com/reel/DXssnGWEeQD/", collab:true },
+            { date:"04/28", caption:"Mannequin challenge! 🥰 #bronxzoo #chinchilla", type:"reel", views:5723, reach:4307, likes:12, shares:1, cmts:5, saves:1, url:"https://www.instagram.com/reel/DXr7SRPGHAl/", collab:false },
+            { date:"04/28", caption:"thank u, next deal 💚", type:"image", views:2956, reach:1813, likes:29, shares:1, cmts:2, saves:0, url:"https://www.instagram.com/p/DXrlwntEpmP/", collab:false },
+            { date:"04/29", caption:"Ever had cuteness aggression over a painting? 🖼️ Museum of the Dog", type:"reel", views:3002, reach:2556, likes:14, shares:5, cmts:3, saves:2, url:"https://www.instagram.com/reel/DXuf_oojS9k/", collab:false },
+            { date:"04/29", caption:"no, i'm sliding to them 😂 🌊 Camelback Resort", type:"image", views:4030, reach:2667, likes:4, shares:0, cmts:3, saves:1, url:"https://www.instagram.com/p/DXuEddvAhDh/", collab:false },
+            { date:"04/30", caption:"Head over shell for you! 🐢 Bronx Zoo tortoise", type:"reel", views:3744, reach:2819, likes:10, shares:14, cmts:2, saves:0, url:"https://www.instagram.com/reel/DXwwEHHhssH/", collab:false }
+          ]},
+          { name:"Groupon UK", badge:"uk", posts:[
+            { date:"04/29", caption:"Have you booked your mystery holiday for this summer yet? 💚", type:"image", views:673, reach:429, likes:3, shares:13, cmts:0, saves:0, url:"https://www.instagram.com/p/DXt9SvHiNyh/", collab:false }
+          ]},
+          { name:"Groupon Deutschland", badge:"de", posts:[
+            { date:"04/29", caption:"Time to stop gifting things and start gifting memories 💚", type:"image", views:777, reach:552, likes:1, shares:12, cmts:1, saves:1, url:"https://www.instagram.com/p/DXuCu5CDf7p/", collab:false }
+          ]},
+          { name:"Groupon France", badge:"fr", posts:[
+            { date:"04/29", caption:"C'est lequel le votre? 💚 #GrouponFR", type:"image", views:712, reach:494, likes:2, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DXuFYPyDJWA/", collab:false }
+          ]},
+          { name:"Groupon España", badge:"es", posts:[
+            { date:"04/29", caption:"Deja de regalar objetos. Empieza a regalar experiencias 💚", type:"image", views:674, reach:445, likes:0, shares:0, cmts:23, saves:0, url:"https://www.instagram.com/p/DXt_ygnDIOR/", collab:false }
+          ]}
+        ]
+      },
+      stories: {
+        kpis: { count:10, countSub:"US (8) · UK (1) · DE (1)", totalViews:6094, totalReach:5525, topViews:1280, topLabel:"US — 04/28 12:03" },
+        accounts: [
+          { name:"Groupon US", badge:"us", stories:[
+            { pub:"04/27 09:16", dur:"Static", views:734, reach:659, likes:1, replies:0, nav:659, pv:1, url:"https://www.instagram.com/stories/groupon/3884651734803273521" },
+            { pub:"04/27 09:17", dur:"Static", views:512, reach:469, likes:1, replies:0, nav:487, pv:2, url:"https://www.instagram.com/stories/groupon/3884651974667096018" },
+            { pub:"04/27 11:30", dur:"Static", views:470, reach:415, likes:1, replies:0, nav:437, pv:4, url:"https://www.instagram.com/stories/groupon/3884719313092983429" },
+            { pub:"04/28 08:55", dur:"Static", views:627, reach:578, likes:0, replies:0, nav:572, pv:3, url:"https://www.instagram.com/stories/groupon/3885365859703441041" },
+            { pub:"04/28 12:03", dur:"7s", views:1280, reach:1173, likes:1, replies:0, nav:440, pv:1, url:"https://www.instagram.com/stories/groupon/3885460182947400106", top:true },
+            { pub:"04/29 07:57", dur:"60s", views:611, reach:537, likes:2, replies:0, nav:560, pv:3, url:"https://www.instagram.com/stories/groupon/3886060967956427457" },
+            { pub:"04/29 08:46", dur:"Static", views:437, reach:386, likes:1, replies:0, nav:404, pv:0, url:"https://www.instagram.com/stories/groupon/3886086334226203430" },
+            { pub:"04/29 12:16", dur:"21s", views:929, reach:852, likes:1, replies:0, nav:405, pv:0, url:"https://www.instagram.com/stories/groupon/3886191599192988966" }
+          ]},
+          { name:"Groupon UK", badge:"uk", stories:[
+            { pub:"04/29 07:02", dur:"Static", views:184, reach:162, likes:0, replies:0, nav:166, pv:0, url:"https://www.instagram.com/stories/grouponuk/3886033570342930925" }
+          ]},
+          { name:"Groupon Deutschland", badge:"de", stories:[
+            { pub:"04/29 07:45", dur:"Static", views:310, reach:294, likes:0, replies:0, nav:297, pv:2, url:"https://www.instagram.com/stories/groupondeutschland/3886055665100378477" }
+          ]}
+        ]
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:8662, reach:3682, likes:185, shares:15, comments:16, clicks:199, growth:"+148", growthSub:"160 new · 12 lost · Sun–Wed 4/26–4/29" },
+        daily: [
+          { day:"Sun 4/26", views:1244, reached:641, pv:503, likes:23, shares:3, cmts:1, clicks:30, newF:18, lost:4, net:14 },
+          { day:"Mon 4/27", views:1500, reached:736, pv:588, likes:60, shares:7, cmts:6, clicks:35, newF:46, lost:0, net:46 },
+          { day:"Tue 4/28", views:3581, reached:1468, pv:1148, likes:77, shares:4, cmts:8, clicks:74, newF:56, lost:5, net:51 },
+          { day:"Wed 4/29", views:2337, reached:837, pv:673, likes:25, shares:1, cmts:1, clicks:60, newF:40, lost:3, net:37 }
+        ]
+      },
+      uk: {
+        kpis: { views:198, reach:21, likes:3, shares:3, comments:0, clicks:4, growth:"+5", growthSub:"5 new · 0 lost · Sun–Wed 4/26–4/29" },
+        daily: [
+          { day:"Sun 4/26", views:30, reached:0, pv:5, likes:0, shares:0, cmts:0, clicks:0, newF:1, lost:0, net:1 },
+          { day:"Mon 4/27", views:122, reached:12, pv:7, likes:2, shares:0, cmts:0, clicks:1, newF:1, lost:0, net:1 },
+          { day:"Tue 4/28", views:26, reached:9, pv:14, likes:1, shares:3, cmts:0, clicks:2, newF:2, lost:0, net:2 },
+          { day:"Wed 4/29", views:20, reached:0, pv:8, likes:0, shares:0, cmts:0, clicks:1, newF:1, lost:0, net:1 }
+        ]
+      }
+    }
+  },
+  apr19: {
+    label: "Apr 19–23, 2026",
+    facebook: {
+      note: "✅ Full Facebook data sourced from Supermetrics — Apr 19–23, 2026. All post types across US, UK, DE, FR, and ES. UK brunch reel (04/21) had no view data reported by Meta.",
+      kpis: { views:313708, reach:246442, posts:11, eng:259, topViews:83670, topLabel:"Lactaid bestie photo (US Apr 23)" },
+      pages: [
+        { name:"Groupon US", badge:"us", posts:[
+          { date:"04/19", caption:"⏰ Last chance — SeaWorld flash deal disappears TODAY. Up to 69% off!", type:"image", views:45538, reach:34865, react:12, cmts:11, shares:1, eng:24, url:"https://www.facebook.com/permalink.php?story_fbid=1390213759801036&id=60004615820", star:false },
+          { date:"04/20", caption:"Happy 4/20, you're welcome 💚 #groupon", type:"image", views:49561, reach:33987, react:26, cmts:19, shares:5, eng:50, url:"https://www.facebook.com/permalink.php?story_fbid=1390967966392282&id=60004615820", star:false },
+          { date:"04/21", caption:"Trying Jamba for the first time! 🥤 $25 gift card link", type:"reel", views:23063, reach:24413, react:12, cmts:9, shares:0, eng:21, url:"https://www.facebook.com/permalink.php?story_fbid=1392011742954571&id=60004615820", star:false },
+          { date:"04/22", caption:"Happy Earth Day! 🌎 — Bronx Zoo deal link", type:"reel", views:21200, reach:20894, react:32, cmts:11, shares:5, eng:48, url:"https://www.facebook.com/permalink.php?story_fbid=1392788966210182&id=60004615820", star:false },
+          { date:"04/23", caption:"Send this to your bestie (And remind them to take their lactaid) #groupon", type:"image", views:83670, reach:56585, react:43, cmts:12, shares:4, eng:59, url:"https://www.facebook.com/permalink.php?story_fbid=1393793422776403&id=60004615820", star:true }
+        ]},
+        { name:"Groupon UK", badge:"uk", posts:[
+          { date:"04/21", caption:"This is your sign to stop doing boring brunch 🤭 📍 Doumo Japanese Bottomless Brunch", type:"reel", views:0, reach:7141, react:0, cmts:2, shares:0, eng:2, url:"https://www.facebook.com/permalink.php?story_fbid=1410304464475622&id=228873308721", star:false },
+          { date:"04/22", caption:"How are we spending Earth day? 💚 #GrouponUK", type:"carousel", views:19999, reach:14199, react:1, cmts:2, shares:0, eng:3, url:"https://www.facebook.com/permalink.php?story_fbid=1411153661057369&id=228873308721", star:false },
+          { date:"04/23", caption:"Name a more perfect way to see London? I'll wait 🤭 #GrouponUK", type:"reel", views:16247, reach:16854, react:14, cmts:6, shares:0, eng:20, url:"https://www.facebook.com/permalink.php?story_fbid=1412015847637817&id=228873308721", star:false }
+        ]},
+        { name:"Groupon Deutschland", badge:"de", posts:[
+          { date:"04/21", caption:"Painful 💔 #GrouponDE #EarthDay", type:"image", views:10759, reach:8192, react:4, cmts:0, shares:1, eng:5, url:"https://www.facebook.com/permalink.php?story_fbid=1415588297273057&id=246925978537", star:false }
+        ]},
+        { name:"Groupon France", badge:"fr", posts:[
+          { date:"04/21", caption:"💔 #GrouponFr #JourDeLaTerre", type:"image", views:36846, reach:23888, react:4, cmts:19, shares:0, eng:23, url:"https://www.facebook.com/permalink.php?story_fbid=1397059099131601&id=312495035218", star:false }
+        ]},
+        { name:"Groupon España", badge:"es", posts:[
+          { date:"04/21", caption:"¿Es mucho pedir ser el planeta de alguien? #GrouponES", type:"image", views:6825, reach:5424, react:1, cmts:3, shares:0, eng:4, url:"https://www.facebook.com/permalink.php?story_fbid=1397694572391397&id=359572171783", star:false }
+        ]}
+      ]
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:861330, ownedViews:29585, posts:13, likes:42977, likesSub:"42,833 from Noe Murillo collab reel", shares:3069, topViews:831745, topLabel:"Noe Murillo collab reel (04/23)" },
+        collabNote: "⭐ Noe Murillo collab reel (04/23) drove 831,745 views — well above owned content. Excluded from owned views KPI.",
+        accounts: [
+          { name:"Groupon US", badge:"us", posts:[
+            { date:"04/19", caption:"ok this is literally your sign 🌊🍢✨ SeaWorld Busch Gardens", type:"image", views:3673, reach:2573, likes:5, shares:1, cmts:2, saves:0, url:"https://www.instagram.com/p/DXUUhJzlDNS/", collab:false },
+            { date:"04/20", caption:"Happy 4/20, you're welcome 💚 #groupon", type:"carousel", views:4330, reach:2261, likes:18, shares:12, cmts:1, saves:0, url:"https://www.instagram.com/p/DXWrkSDj7LG/", collab:false },
+            { date:"04/20", caption:"Still recovering from tax season… #groupon #scuba", type:"reel", views:2276, reach:1702, likes:14, shares:19, cmts:10, saves:0, url:"https://www.instagram.com/reel/DXW9Vw9jYit/", collab:false },
+            { date:"04/21", caption:"Trying @jamba for the first time! 🥤 Comment SMOOTHIE", type:"reel", views:3008, reach:2431, likes:27, shares:26, cmts:23, saves:0, url:"https://www.instagram.com/reel/DXZk9f7B-SJ/", collab:false },
+            { date:"04/22", caption:"Happy Earth Day! 🌎 — Bronx Zoo deal", type:"reel", views:2650, reach:2213, likes:17, shares:14, cmts:3, saves:0, url:"https://www.instagram.com/reel/DXb8AKABrdY/", collab:false },
+            { date:"04/23", caption:"@groupon Solo Date to @loscompadresdeoaxaca — Noe Murillo collab ⭐", type:"reel", views:831745, reach:0, likes:42833, shares:2884, cmts:363, saves:0, url:"https://www.instagram.com/reel/DXgAGfgkYoc/", collab:true },
+            { date:"04/23", caption:"Send this to your bestie (And remind them to take their lactaid)", type:"image", views:4950, reach:3216, likes:10, shares:35, cmts:1, saves:2, url:"https://www.instagram.com/p/DXeufK5jyCI/", collab:false }
+          ]},
+          { name:"Groupon UK", badge:"uk", posts:[
+            { date:"04/21", caption:"This is your sign to stop doing boring brunch 🤭 📍 Doumo", type:"reel", views:1371, reach:1093, likes:16, shares:26, cmts:6, saves:0, url:"https://www.instagram.com/reel/DXZQVHNR44X/", collab:false },
+            { date:"04/22", caption:"How are we spending Earth day? 💚 #GrouponUK", type:"carousel", views:871, reach:480, likes:3, shares:9, cmts:3, saves:0, url:"https://www.instagram.com/p/DXb9CV2iBV2/", collab:false },
+            { date:"04/23", caption:"Name a more perfect way to see London? I'll wait 🤭", type:"reel", views:1135, reach:844, likes:26, shares:38, cmts:8, saves:1, url:"https://www.instagram.com/reel/DXem_bIiPgs/", collab:false }
+          ]},
+          { name:"Groupon Deutschland", badge:"de", posts:[
+            { date:"04/21", caption:"Painful 💔 #GrouponDE #EarthDay", type:"image", views:734, reach:457, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DXZTNYijXSF/", collab:false }
+          ]},
+          { name:"Groupon France", badge:"fr", posts:[
+            { date:"04/21", caption:"💔 #GrouponFr #JourDeLaTerre", type:"image", views:1499, reach:925, likes:3, shares:0, cmts:12, saves:0, url:"https://www.instagram.com/p/DXZSlBijBYd/", collab:false }
+          ]},
+          { name:"Groupon España", badge:"es", posts:[
+            { date:"04/21", caption:"¿Es mucho pedir ser el planeta de alguien? #GrouponES", type:"image", views:3088, reach:1961, likes:5, shares:5, cmts:3, saves:0, url:"https://www.instagram.com/p/DXZRjobiFD1/", collab:false }
+          ]}
+        ]
+      },
+      stories: {
+        kpis: { count:10, countSub:"US (6) · UK (3) · ES (1)", totalViews:5043, totalReach:4475, topViews:1046, topLabel:"US — 04/19 11:51" },
+        accounts: [
+          { name:"Groupon US", badge:"us", stories:[
+            { pub:"04/19 11:51", dur:"Static", views:1046, reach:909, likes:1, replies:3, nav:914, pv:5, url:"https://www.instagram.com/stories/groupon/3878931535826645424", top:true },
+            { pub:"04/20 06:16", dur:"Static", views:558, reach:493, likes:0, replies:1, nav:491, pv:0, url:"https://www.instagram.com/stories/groupon/3879487559516888554" },
+            { pub:"04/20 08:16", dur:"Static", views:404, reach:365, likes:0, replies:0, nav:368, pv:1, url:"https://www.instagram.com/stories/groupon/3879548061152564673" },
+            { pub:"04/20 08:40", dur:"8s", views:378, reach:342, likes:0, replies:2, nav:347, pv:5, url:"https://www.instagram.com/stories/groupon/3879559873990356071" },
+            { pub:"04/21 09:37", dur:"40s", views:732, reach:653, likes:0, replies:0, nav:674, pv:4, url:"https://www.instagram.com/stories/groupon/3880313117981400460" },
+            { pub:"04/22 08:10", dur:"32s", views:676, reach:610, likes:0, replies:0, nav:626, pv:5, url:"https://www.instagram.com/stories/groupon/3880994297193781755" }
+          ]},
+          { name:"Groupon UK", badge:"uk", stories:[
+            { pub:"04/21 06:07", dur:"24s", views:248, reach:229, likes:1, replies:0, nav:232, pv:0, url:"https://www.instagram.com/stories/grouponuk/3880207650923246161" },
+            { pub:"04/22 07:10", dur:"Static", views:255, reach:233, likes:0, replies:0, nav:235, pv:0, url:"https://www.instagram.com/stories/grouponuk/3880964443353911361" },
+            { pub:"04/23 07:58", dur:"27s", views:180, reach:155, likes:2, replies:0, nav:161, pv:0, url:"https://www.instagram.com/stories/grouponuk/3881713038285868349" }
+          ]},
+          { name:"Groupon España", badge:"es", stories:[
+            { pub:"04/21 06:15", dur:"Static", views:566, reach:486, likes:0, replies:0, nav:497, pv:2, url:"https://www.instagram.com/stories/grouponspain/3880211660820506863" }
+          ]}
+        ]
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:9062, reach:4678, likes:94, shares:14, comments:18, clicks:353, growth:"+75", growthSub:"89 new · 14 lost · Sun–Wed 4/19–4/22" },
+        daily: [
+          { day:"Sun 4/19", views:3018, reached:1334, pv:3402, likes:21, shares:3, cmts:1, clicks:137, newF:24, lost:3, net:21 },
+          { day:"Mon 4/20", views:2439, reached:1385, pv:1919, likes:15, shares:3, cmts:7, clicks:77, newF:15, lost:2, net:13 },
+          { day:"Tue 4/21", views:2071, reached:1111, pv:1103, likes:30, shares:5, cmts:0, clicks:64, newF:27, lost:3, net:24 },
+          { day:"Wed 4/22", views:1534, reached:848, pv:1049, likes:28, shares:3, cmts:10, clicks:75, newF:23, lost:6, net:17 }
+        ]
+      },
+      uk: {
+        kpis: { views:399, reach:301, likes:18, shares:4, comments:1, clicks:6, growth:"+3", growthSub:"3 new · 1 lost · Sun–Wed 4/19–4/22" },
+        daily: [
+          { day:"Sun 4/19", views:18, reached:0, pv:7, likes:0, shares:0, cmts:0, clicks:1, newF:1, lost:0, net:1 },
+          { day:"Mon 4/20", views:38, reached:0, pv:13, likes:0, shares:0, cmts:0, clicks:1, newF:1, lost:0, net:2 },
+          { day:"Tue 4/21", views:310, reached:280, pv:15, likes:17, shares:4, cmts:1, clicks:2, newF:0, lost:0, net:0 },
+          { day:"Wed 4/22", views:33, reached:21, pv:9, likes:1, shares:0, cmts:0, clicks:2, newF:1, lost:1, net:0 }
+        ]
+      }
+    }
+  }
+};
+
+let currentWeek = "may24";
+let fbChart, igfChart, ttNaChart, ttUkChart;
+
+const WEEK_KEYS = ['may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
+function prevWeekKey(key) {
+  const idx = WEEK_KEYS.indexOf(key);
+  return idx < WEEK_KEYS.length - 1 ? WEEK_KEYS[idx + 1] : null;
+}
+function setWow(kpiValueId, current, prior) {
+  const valueEl = document.getElementById(kpiValueId);
+  if (!valueEl) return;
+  const existing = valueEl.parentElement.querySelector('.kpi-wow');
+  if (existing) existing.remove();
+  if (prior == null || prior === 0 || current == null) return;
+  const pct = (current - prior) / prior * 100;
+  const abs = Math.abs(pct).toFixed(1);
+  const up = pct >= 0;
+  const div = document.createElement('div');
+  div.className = 'kpi-wow ' + (up ? 'wow-up' : 'wow-down');
+  div.textContent = (up ? '↑' : '↓') + abs + '% WoW';
+  valueEl.parentElement.appendChild(div);
+}
+
+const fmt = n => (n == null || n === "" || n === "—") ? "—" : Number(n).toLocaleString();
+const sum = (arr, key) => arr.reduce((a, b) => a + (Number(b[key]) || 0), 0);
+const typeClass = t => ({ photo:"pt-photo", reel:"pt-reel", carousel:"pt-carousel", image:"pt-image" }[t] || "pt-photo");
+function set(id, val) { const el = document.getElementById(id); if(el) el.textContent = val; }
+
+function showPlatform(id, el) {
+  document.querySelectorAll('.platform-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('platform-' + id).classList.add('active');
+  el.classList.add('active');
+  const w = WEEKS[currentWeek]; if (!w) return;
+  const prevKey = prevWeekKey(currentWeek);
+  const pw = prevKey ? WEEKS[prevKey] : null;
+  if (id === 'instagram') {
+    setTimeout(() => {
+      try { renderIGFeed(w.instagram ? w.instagram.feed : null, pw && pw.instagram ? pw.instagram.feed : null); } catch(e) {}
+      try { renderIGStories(w.instagram ? w.instagram.stories : null, pw && pw.instagram ? pw.instagram.stories : null); } catch(e) {}
+    }, 50);
+  } else if (id === 'tiktok') {
+    setTimeout(() => {
+      try { renderTikTokAccount('na', w.tiktok ? w.tiktok.na : null, pw && pw.tiktok ? pw.tiktok.na : null); } catch(e) {}
+      try { renderTikTokAccount('uk', w.tiktok ? w.tiktok.uk : null, pw && pw.tiktok ? pw.tiktok.uk : null); } catch(e) {}
+    }, 50);
+  } else if (id === 'facebook') {
+    setTimeout(() => {
+      try { renderFacebook(w.facebook, pw ? pw.facebook : null); } catch(e) {}
+    }, 50);
+  }
+}
+function showSub(prefix, id, el) {
+  document.querySelectorAll('[id^="' + prefix + '-"]').forEach(p => p.classList.remove('active'));
+  el.closest('.sub-nav').querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(prefix + '-' + id).classList.add('active');
+  el.classList.add('active');
+}
+function switchWeek(key) { currentWeek = key; renderAll(); }
+
+function renderAll() {
+  const w = WEEKS[currentWeek];
+  if (!w) return;
+  const prevKey = prevWeekKey(currentWeek);
+  const pw = prevKey ? WEEKS[prevKey] : null;
+  document.getElementById('headerSub').textContent = w.label + ' · Facebook · Instagram · TikTok';
+  try { renderFacebook(w.facebook, pw ? pw.facebook : null); } catch(e) { console.warn('FB render error', e); }
+  try { renderIGFeed(w.instagram ? w.instagram.feed : null, pw && pw.instagram ? pw.instagram.feed : null); } catch(e) { console.warn('IG feed render error', e); }
+  try { renderIGStories(w.instagram ? w.instagram.stories : null, pw && pw.instagram ? pw.instagram.stories : null); } catch(e) { console.warn('IG stories render error', e); }
+  try { renderTikTokAccount('na', w.tiktok ? w.tiktok.na : null, pw && pw.tiktok ? pw.tiktok.na : null); } catch(e) { console.warn('TikTok NA render error', e); }
+  try { renderTikTokAccount('uk', w.tiktok ? w.tiktok.uk : null, pw && pw.tiktok ? pw.tiktok.uk : null); } catch(e) { console.warn('TikTok UK render error', e); }
+}
+
+function renderFacebook(fb, prev) {
+  const k = fb.kpis;
+  set('fb-kpi-views', fmt(k.views));
+  set('fb-kpi-posts', k.posts); set('fb-kpi-eng', fmt(k.eng));
+  set('fb-kpi-top', fmt(k.topViews) + ' ★'); set('fb-kpi-top-label', k.topLabel);
+  const pk = prev ? prev.kpis : {};
+  setWow('fb-kpi-views', k.views, pk.views);
+  setWow('fb-kpi-eng', k.eng, pk.eng);
+  const fbNoteEl = document.getElementById('fb-note');
+  if(fbNoteEl) fbNoteEl.innerHTML = fb.note ? `<div class="note-bar">${fb.note}</div>` : '';
+
+  if (!fb.pages || fb.pages.length === 0) {
+    document.getElementById('fb-tables').innerHTML = '<div class="note-bar">No Facebook post detail for this week yet.</div>';
+    if(fbChart) { fbChart.destroy(); fbChart = null; }
+    return;
+  }
+
+  document.getElementById('fb-tables').innerHTML = fb.pages.map(page => {
+    const tv = sum(page.posts, 'views');
+    const tr = sum(page.posts, 'reach');
+    const te = sum(page.posts, 'eng');
+    return `<div class="table-wrap">
+      <div class="table-title">${page.name} <span class="badge ${page.badge}">${page.badge.toUpperCase()}</span> <span class="badge">${page.posts.length} post${page.posts.length>1?'s':''}</span></div>
+      <table><thead><tr><th>Date</th><th>Caption</th><th>Type</th><th class="num">Views</th><th class="num">Reach</th><th class="num">React.</th><th class="num">Cmts</th><th class="num">Shares</th><th class="num">Total Eng.</th><th>Link</th></tr></thead><tbody>
+      ${page.posts.map(p=>`<tr><td>${p.date}</td><td class="post-caption">${p.caption}</td><td><span class="pt ${typeClass(p.type)}">${p.type.charAt(0).toUpperCase()+p.type.slice(1)}</span></td><td class="num num-big">${fmt(p.views)}</td><td class="num">${fmt(p.reach)}</td><td class="num">${p.react}</td><td class="num">${p.cmts}</td><td class="num">${p.shares}</td><td class="num num-big">${p.eng}${p.star?' <span class="star">★</span>':''}</td><td><a class="pl" href="${p.url}" target="_blank">View ↗</a></td></tr>`).join('')}
+      <tr class="total-row"><td>Total</td><td class="post-caption">${page.posts.length} posts</td><td></td><td class="num">${fmt(tv)}</td><td class="num">${fmt(tr)}</td><td class="num">${sum(page.posts,'react')}</td><td class="num">${sum(page.posts,'cmts')}</td><td class="num">${sum(page.posts,'shares')}</td><td class="num">${fmt(te)}</td><td></td></tr>
+      </tbody></table></div>`;
+  }).join('');
+
+  try {
+    const allPosts = fb.pages.flatMap(p => p.posts);
+    const totalViews = allPosts.reduce((s,p) => s + (Number(p.views)||0), 0);
+    const chartCard = document.querySelector('#platform-facebook .chart-card');
+    if (totalViews === 0) {
+      if(fbChart) { fbChart.destroy(); fbChart = null; }
+      if(chartCard) chartCard.style.display = 'none';
+    } else {
+      if(chartCard) chartCard.style.display = '';
+      const colors = fb.pages.flatMap(p => { const c={us:'#00a651',uk:'#1565c0',de:'#f57f17',fr:'#c62828',es:'#7b1fa2'}; return p.posts.map(()=>c[p.badge]||'#999'); });
+      if(fbChart) fbChart.destroy();
+      const ctx = document.getElementById('fbChart');
+      if(ctx) fbChart = new Chart(ctx, { type:'bar', data:{ labels:allPosts.map(p=>p.date+' '+p.caption.substring(0,14)+'...'), datasets:[{ label:'Views', data:allPosts.map(p=>Number(p.views)||0), backgroundColor:colors, borderRadius:4 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true,grid:{color:'#f0f0f0'},ticks:{font:{size:10}}}, x:{grid:{display:false},ticks:{font:{size:9},maxRotation:35}} } } });
+    }
+  } catch(e) { console.warn('FB chart error:', e); }
+}
+
+function renderIGFeed(feed, prev) {
+  if (!feed || !feed.kpis || (!feed.kpis.totalViews && !feed.kpis.ownedViews)) {
+    ['igf-kpi-views','igf-kpi-owned','igf-kpi-posts','igf-kpi-likes','igf-kpi-shares','igf-kpi-top'].forEach(id=>set(id,'—'));
+    document.getElementById('igf-note').innerHTML = '<div class="note-bar">No Instagram feed data for this week yet.</div>';
+    document.getElementById('igf-tables').innerHTML = '';
+    if(igfChart) { igfChart.destroy(); igfChart = null; }
+    return;
+  }
+  const k = feed.kpis;
+  set('igf-kpi-views',fmt(k.totalViews)); set('igf-kpi-owned',fmt(k.ownedViews));
+  set('igf-kpi-posts',k.posts); set('igf-kpi-likes',fmt(k.likes)); set('igf-kpi-likes-sub',k.likesSub);
+  set('igf-kpi-shares',fmt(k.shares)); set('igf-kpi-top',fmt(k.topViews)+' ★'); set('igf-kpi-top-label',k.topLabel);
+  const pk = prev ? prev.kpis : {};
+  setWow('igf-kpi-views', k.totalViews, pk.totalViews);
+  setWow('igf-kpi-owned', k.ownedViews, pk.ownedViews);
+  setWow('igf-kpi-likes', k.likes, pk.likes);
+  setWow('igf-kpi-shares', k.shares, pk.shares);
+  document.getElementById('igf-note').innerHTML = feed.collabNote ? `<div class="note-bar">${feed.collabNote}</div>` : '';
+
+  if (!feed.accounts || feed.accounts.length === 0) {
+    document.getElementById('igf-tables').innerHTML = '<div class="note-bar">Post-level breakdown not yet available for this week.</div>';
+    if(igfChart) { igfChart.destroy(); igfChart = null; }
+    return;
+  }
+
+  const ownedPosts = feed.accounts.flatMap(a=>a.posts.filter(p=>!p.collab));
+  const badgeColors = {us:'#00a651',uk:'#1565c0',de:'#f57f17',fr:'#c62828',es:'#7b1fa2'};
+  const colors = feed.accounts.flatMap(a=>a.posts.filter(p=>!p.collab).map(()=>badgeColors[a.badge]||'#999'));
+
+  // ── Tables rendered FIRST so they always show even if chart throws ──
+  document.getElementById('igf-tables').innerHTML = feed.accounts.map(acc => {
+    const tv = sum(acc.posts, 'views');
+    const tr = sum(acc.posts.filter(p=>p.reach), 'reach');
+    const tl = sum(acc.posts, 'likes');
+    const ts = sum(acc.posts, 'shares');
+    const tc = sum(acc.posts, 'cmts');
+    const tsv = sum(acc.posts, 'saves');
+    return `<div class="table-wrap">
+      <div class="table-title">${acc.name} <span class="badge ${acc.badge}">${acc.badge.toUpperCase()}</span> <span class="badge">${acc.posts.length} post${acc.posts.length>1?'s':''}</span></div>
+      <table><thead><tr><th>Date</th><th>Caption</th><th>Type</th><th class="num">Views</th><th class="num">Reach</th><th class="num">Likes</th><th class="num">Shares</th><th class="num">Cmts</th><th class="num">Saves</th><th>Link</th></tr></thead><tbody>
+      ${acc.posts.map(p=>`<tr${p.collab?' style="background:#fffde7"':''}><td>${p.date}</td><td class="post-caption">${p.caption}</td><td><span class="pt ${typeClass(p.type)}">${p.type.charAt(0).toUpperCase()+p.type.slice(1)}</span></td><td class="num num-big"${p.collab?' style="color:#00a651"':''}>${fmt(p.views)}</td><td class="num">${p.reach?fmt(p.reach):'—'}</td><td class="num">${p.likes}</td><td class="num">${p.shares}</td><td class="num">${p.cmts}</td><td class="num">${p.saves}</td><td><a class="pl" href="${p.url}" target="_blank">View ↗</a></td></tr>`).join('')}
+      <tr class="total-row"><td>Total</td><td class="post-caption">${acc.posts.length} posts</td><td></td><td class="num">${fmt(tv)}</td><td class="num">${fmt(tr)}</td><td class="num">${tl}</td><td class="num">${ts}</td><td class="num">${tc}</td><td class="num">${tsv}</td><td></td></tr>
+      </tbody></table></div>`;
+  }).join('');
+
+  // ── Chart rendered AFTER tables, in its own try/catch ──
+  try {
+    if(igfChart) igfChart.destroy();
+    const ctx = document.getElementById('igfChart');
+    if(ctx) igfChart = new Chart(ctx, { type:'bar', data:{ labels:ownedPosts.map(p=>p.date+' '+p.caption.substring(0,16)+'…'), datasets:[{ label:'Views', data:ownedPosts.map(p=>p.views), backgroundColor:colors, borderRadius:4 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true,grid:{color:'#f0f0f0'},ticks:{font:{size:10}}}, x:{grid:{display:false},ticks:{font:{size:9},maxRotation:35}} } } });
+  } catch(e) { console.warn('IGF chart error (may render on tab switch):', e); igfChart = null; }
+}
+
+function renderIGStories(stories, prev) {
+  if (!stories || !stories.accounts || stories.accounts.length === 0) {
+    ['igs-kpi-count','igs-kpi-views','igs-kpi-reach','igs-kpi-top'].forEach(id=>set(id,'—'));
+    document.getElementById('igs-tables').innerHTML = '<div class="note-bar">No Stories data for this week yet.</div>';
+    return;
+  }
+  const k = stories.kpis;
+  set('igs-kpi-count',k.count); set('igs-kpi-count-sub',k.countSub);
+  set('igs-kpi-views',fmt(k.totalViews)); set('igs-kpi-reach',fmt(k.totalReach));
+  set('igs-kpi-top',fmt(k.topViews)); set('igs-kpi-top-label',k.topLabel);
+  const pk = prev ? prev.kpis : {};
+  setWow('igs-kpi-count', k.count, pk.count);
+  setWow('igs-kpi-views', k.totalViews, pk.totalViews);
+  setWow('igs-kpi-reach', k.totalReach, pk.totalReach);
+
+  document.getElementById('igs-tables').innerHTML = stories.accounts.map(acc => {
+    const tv = sum(acc.stories, 'views');
+    const tr = sum(acc.stories, 'reach');
+    const tl = sum(acc.stories, 'likes');
+    const trp = sum(acc.stories, 'replies');
+    return `<div class="table-wrap">
+      <div class="table-title">${acc.name} <span class="badge ${acc.badge}">${acc.badge.toUpperCase()}</span> <span class="badge">${acc.stories.length} stories</span></div>
+      <table><thead><tr><th>Published</th><th>Duration</th><th class="num">Views</th><th class="num">Reach</th><th class="num">Likes</th><th class="num">Replies</th><th class="num">Navigation</th><th class="num">Profile Visits</th><th>Link</th></tr></thead><tbody>
+      ${acc.stories.map(s=>`<tr><td>${s.pub}</td><td>${s.dur}</td><td class="num${s.top?' num-big" style="color:#00a651':''}">${fmt(s.views)}</td><td class="num">${fmt(s.reach)}</td><td class="num">${s.likes}</td><td class="num">${s.replies}</td><td class="num">${fmt(s.nav)}</td><td class="num">${s.pv!==undefined?s.pv:'—'}</td><td><a class="pl" href="${s.url}" target="_blank">View ↗</a></td></tr>`).join('')}
+      <tr class="total-row"><td>Total</td><td>${acc.stories.length} stories</td><td class="num">${fmt(tv)}</td><td class="num">${fmt(tr)}</td><td class="num">${tl}</td><td class="num">${trp}</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+      </tbody></table></div>`;
+  }).join('');
+}
+
+function renderTikTokAccount(acct, data, prev) {
+  if (!data) return;
+  const k = data.kpis;
+  set(`tt-${acct}-kpi-views`, fmt(k.views)); set(`tt-${acct}-kpi-reach`, fmt(k.reach));
+  set(`tt-${acct}-kpi-likes`, fmt(k.likes)); set(`tt-${acct}-kpi-shares`, fmt(k.shares));
+  set(`tt-${acct}-kpi-comments`, fmt(k.comments)); set(`tt-${acct}-kpi-clicks`, fmt(k.clicks));
+  set(`tt-${acct}-kpi-growth`, k.growth); set(`tt-${acct}-kpi-growth-sub`, k.growthSub);
+  const pk = prev ? prev.kpis : {};
+  setWow(`tt-${acct}-kpi-views`, k.views, pk.views);
+  setWow(`tt-${acct}-kpi-reach`, k.reach, pk.reach);
+  setWow(`tt-${acct}-kpi-likes`, k.likes, pk.likes);
+  setWow(`tt-${acct}-kpi-shares`, k.shares, pk.shares);
+  setWow(`tt-${acct}-kpi-comments`, k.comments, pk.comments);
+  setWow(`tt-${acct}-kpi-clicks`, k.clicks, pk.clicks);
+
+  if (data.daily && data.daily.length > 0) {
+    document.getElementById(`tt-${acct}-table`).innerHTML = `<div class="table-wrap"><div class="table-title">Daily Breakdown</div>
+      <table><thead><tr><th>Day</th><th class="num">Views</th><th class="num">Reach</th><th class="num">Likes</th><th class="num">Shares</th><th class="num">Cmts</th><th class="num">Web Clicks</th><th class="num">New Followers</th><th class="num">Lost</th><th class="num">Net</th></tr></thead><tbody>
+      ${data.daily.map(d=>`<tr><td>${d.day}</td><td class="num num-big">${fmt(d.views)}</td><td class="num">${d.reached===0||d.reached==='—'?'—':fmt(d.reached)}</td><td class="num">${d.likes}</td><td class="num">${d.shares}</td><td class="num">${d.cmts}</td><td class="num">${d.clicks}</td><td class="num">${d.newF}</td><td class="num">${d.lost}</td><td class="num" style="color:${d.net>=0?'#00a651':'#e53935'}">${d.net>=0?'+':''}${d.net}</td></tr>`).join('')}
+      </tbody></table></div>`;
+  }
+
+  try {
+    const existing = acct === 'na' ? ttNaChart : ttUkChart;
+    if (existing) existing.destroy();
+    const ctx = document.getElementById(`tt${acct.charAt(0).toUpperCase()+acct.slice(1)}Chart`);
+    const newChart = ctx && data.daily && data.daily.length > 0 ? new Chart(ctx, { type:'bar', data:{ labels:data.daily.map(d=>d.day), datasets:[
+      { label:'Video Views', data:data.daily.map(d=>d.views), backgroundColor:'rgba(0,166,81,0.75)', borderRadius:4 },
+      { label:'Website Clicks', data:data.daily.map(d=>d.clicks), backgroundColor:'rgba(0,166,81,0.2)', borderRadius:4 }
+    ]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{font:{size:11}}}}, scales:{ y:{beginAtZero:true,grid:{color:'#f0f0f0'},ticks:{font:{size:11}}}, x:{grid:{display:false},ticks:{font:{size:11}}} } } }) : null;
+    if (acct === 'na') ttNaChart = newChart; else ttUkChart = newChart;
+  } catch(e) { console.warn('TikTok chart error (may render on tab switch):', e); if(acct==='na') ttNaChart=null; else ttUkChart=null; }
+}
+
+renderAll();
+</script>
+</body>
+</html>
