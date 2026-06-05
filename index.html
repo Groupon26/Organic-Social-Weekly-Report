@@ -2,7 +2,7 @@
 {
   "name": "Groupon Instagram Weekly Report",
   "schemaVersion": 1,
-  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK, and Linktree performance across US, UK, FR, DE, and ES pages. Updated weekly. Current week: May 24–28, 2026.",
+  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK performance. Current week: Jun 1–4, 2026. Updated weekly. Current week: May 24–28, 2026.",
   "mcpTools": [
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__data_query",
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__get_async_query_results",
@@ -101,6 +101,7 @@ a.pl:hover { text-decoration: underline; }
   <div class="week-selector-wrap">
     <label>Week:</label>
     <select id="weekSelect" onchange="switchWeek(this.value)">
+      <option value="jun01" selected>Jun 1–4, 2026</option>
       <option value="may24">May 24–28, 2026</option>
       <option value="may17">May 17–21, 2026</option>
       <option value="may10">May 10–14, 2026</option>
@@ -191,6 +192,25 @@ a.pl:hover { text-decoration: underline; }
 </div>
 <script>
 const WEEKS = {
+  jun01: {
+    label: "Jun 1–4, 2026",
+    facebook: {
+      note: "⏳ Facebook organic data pending — to be added after Brandi CSV upload or Supermetrics pull.",
+      kpis: { views:0, reach:0, posts:0, eng:0, topViews:0, topLabel:"Pending" },
+      pages: []
+    },
+    instagram: null,
+    tiktok: {
+      na: {
+        kpis: { views:12200, reach:0, likes:368, shares:17, comments:9, clicks:0, growth:"+65", growthSub:"65 net new · 12.8K total followers · May 28–Jun 3 via TikTok Studio (↑38.5% views WoW)" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:136, reach:0, likes:1, shares:0, comments:1, clicks:0, growth:"+6", growthSub:"6 net new · 55 total followers · May 28–Jun 3 via TikTok Studio (↑9.7% views WoW)" },
+        daily: []
+      }
+    }
+  },
   may24: {
     label: "May 24–28, 2026",
     facebook: {
@@ -779,10 +799,10 @@ const WEEKS = {
   }
 };
 
-let currentWeek = "may24";
+let currentWeek = "jun01";
 let fbChart, igfChart, ttNaChart, ttUkChart;
 
-const WEEK_KEYS = ['may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
+const WEEK_KEYS = ['jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
 function prevWeekKey(key) {
   const idx = WEEK_KEYS.indexOf(key);
   return idx < WEEK_KEYS.length - 1 ? WEEK_KEYS[idx + 1] : null;
