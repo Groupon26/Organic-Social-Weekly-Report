@@ -2,7 +2,7 @@
 {
   "name": "Groupon Instagram Weekly Report",
   "schemaVersion": 1,
-  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK performance. Current week: Jun 1–4, 2026. Updated weekly. Current week: May 24–28, 2026.",
+  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK, and Linktree performance across US, UK, FR, DE, and ES pages. Updated weekly. Current week: May 24–28, 2026.",
   "mcpTools": [
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__data_query",
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__get_async_query_results",
@@ -195,18 +195,69 @@ const WEEKS = {
   jun01: {
     label: "Jun 1–4, 2026",
     facebook: {
-      note: "⏳ Facebook organic data pending — to be added after Brandi CSV upload or Supermetrics pull.",
-      kpis: { views:0, reach:0, posts:0, eng:0, topViews:0, topLabel:"Pending" },
-      pages: []
+      note: "✅ Facebook organic data via Supermetrics · Jun 1–4, 2026. Pride Week content dominant. US duplicate post 06/02 (intentional A/B or error). DE had 0 posts.",
+      kpis: { views:114110, reach:88159, posts:10, eng:57, topViews:20276, topLabel:"Gonna take a 2-hour lunch too 🤫 v2 (US, 06/02)" },
+      pages: [
+        { name:"Groupon US", badge:"us", posts:[
+          { date:"06/01", caption:"we are so excited to share this new feature for pride month! 🏳️\u200d🌈", type:"video", views:10825, reach:9253, react:9, cmts:9, shares:0, eng:18, url:"https://www.facebook.com/60004615820_1428703559285389", star:false },
+          { date:"06/02", caption:"Gonna take a 2-hour lunch too 🤫 (v1)", type:"photo", views:17266, reach:13283, react:2, cmts:5, shares:0, eng:7, url:"https://www.facebook.com/60004615820_1429764802512598", star:false },
+          { date:"06/02", caption:"Gonna take a 2-hour lunch too 🤫 (v2)", type:"photo", views:20276, reach:15814, react:4, cmts:6, shares:0, eng:10, url:"https://www.facebook.com/60004615820_1429764975845914", star:true },
+          { date:"06/03", caption:"the concept of pulling trade with Groupon... happy pride yall", type:"carousel", views:18158, reach:14838, react:3, cmts:4, shares:0, eng:7, url:"https://www.facebook.com/60004615820_1430773739078371", star:false },
+          { date:"06/04", caption:"send this. don't explain it. 🏳️\u200d🌈", type:"carousel", views:7726, reach:5893, react:4, cmts:0, shares:0, eng:4, url:"https://www.facebook.com/60004615820_1431703415652070", star:false }
+        ]},
+        { name:"Groupon UK", badge:"uk", posts:[
+          { date:"06/01", caption:"Good thing we have a Groupon for that ;) #GrouponUK", type:"photo", views:14515, reach:10193, react:1, cmts:0, shares:0, eng:1, url:"https://www.facebook.com/228873308721_1445515077621227", star:false },
+          { date:"06/03", caption:"Pick a number and trust the process 💚 #GrouponUK", type:"photo", views:12228, reach:8951, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/228873308721_1447487644090637", star:false }
+        ]},
+        { name:"Groupon France", badge:"fr", posts:[
+          { date:"06/01", caption:"Ça tombe bien, on a un Groupon pour ça #GrouponFR", type:"photo", views:8660, reach:6380, react:3, cmts:5, shares:0, eng:8, url:"https://www.facebook.com/312495035218_1432111085626402", star:false }
+        ]},
+        { name:"Groupon España", badge:"es", posts:[
+          { date:"06/01", caption:"Surte que hay un Groupon para eso ;) #GrouponES", type:"photo", views:2397, reach:1944, react:0, cmts:0, shares:0, eng:0, url:"https://www.facebook.com/359572171783_1433031068857747", star:false },
+          { date:"06/03", caption:"Cuál elegiste?? 🤭 #GrouponES", type:"photo", views:2059, reach:1610, react:0, cmts:2, shares:0, eng:2, url:"https://www.facebook.com/359572171783_1434920548668799", star:false }
+        ]}
+      ]
     },
-    instagram: null,
+    instagram: {
+      feed: {
+        kpis: { totalViews:16352, ownedViews:16352, posts:11, likes:82, likesSub:"US · UK · DE · FR · ES combined", shares:88, topViews:4918, topLabel:"pulling trade carousel (US, 06/03)" },
+        collabNote: "✅ 11 IG feed posts Jun 1–4 · US (4) · UK (2) · DE (2) · FR (1) · ES (2). Top IG post by views: pulling trade carousel at 4,918; Pride Reel led shares with 44.",
+        accounts: [
+          { name:"Groupon U.S.", badge:"us", posts:[
+            { date:"06/01", caption:"we are so excited to share this new feature for pride month! 🏳️\u200d🌈", type:"reel", views:4728, reach:3434, likes:37, shares:44, cmts:3, saves:2, url:"https://www.instagram.com/reel/DZDCsMvDHQ7/", collab:false },
+            { date:"06/02", caption:"Gonna take a 2-hour lunch too 🤫", type:"image", views:1763, reach:1100, likes:2, shares:1, cmts:0, saves:0, url:"https://www.instagram.com/p/DZFneWjHM3_/", collab:false },
+            { date:"06/03", caption:"the concept of pulling trade with Groupon... happy pride yall", type:"carousel", views:4918, reach:2434, likes:25, shares:9, cmts:5, saves:1, url:"https://www.instagram.com/p/DZITE08DQ-d/", collab:false },
+            { date:"06/04", caption:"send this. don't explain it. 🏳️\u200d🌈", type:"carousel", views:2114, reach:869, likes:13, shares:34, cmts:2, saves:2, url:"https://www.instagram.com/p/DZK33rxlELG/", collab:false }
+          ]},
+          { name:"Groupon UK", badge:"uk", posts:[
+            { date:"06/01", caption:"Good thing we have a Groupon for that ;) #GrouponUK", type:"image", views:402, reach:253, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DZCWmvIAKaK/", collab:false },
+            { date:"06/03", caption:"Pick a number and trust the process 💚 #GrouponUK", type:"image", views:301, reach:194, likes:2, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DZHszF9ALgj/", collab:false }
+          ]},
+          { name:"Groupon Deutschland", badge:"de", posts:[
+            { date:"06/01", caption:"Good thing we have a Groupon for that ;) #GrouponDE", type:"image", views:389, reach:236, likes:0, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DZCmEPDjcE1/", collab:false },
+            { date:"06/03", caption:"Pick a number and trust the process #GrouponDE", type:"image", views:240, reach:151, likes:0, shares:0, cmts:2, saves:0, url:"https://www.instagram.com/p/DZHictgjYte/", collab:false }
+          ]},
+          { name:"Groupon France", badge:"fr", posts:[
+            { date:"06/01", caption:"Ça tombe bien, on a un Groupon pour ça #GrouponFR", type:"image", views:429, reach:264, likes:0, shares:0, cmts:1, saves:0, url:"https://www.instagram.com/p/DZCheB9jF42/", collab:false }
+          ]},
+          { name:"Groupon España", badge:"es", posts:[
+            { date:"06/01", caption:"Surte que hay un Groupon para eso ;) #GrouponES", type:"image", views:614, reach:391, likes:1, shares:0, cmts:2, saves:1, url:"https://www.instagram.com/p/DZCiob2jnNn/", collab:false },
+            { date:"06/03", caption:"Cuál elegiste?? 🤭 #GrouponES", type:"image", views:454, reach:302, likes:2, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DZHsO2WjnaO/", collab:false }
+          ]}
+        ]
+      },
+      stories: {
+        kpis: { count:0, countSub:"Stories expired before pull (24h TTL)", totalViews:0, totalReach:0, topViews:0, topLabel:"N/A" },
+        accounts: []
+      }
+    },
     tiktok: {
       na: {
-        kpis: { views:12200, reach:0, likes:368, shares:17, comments:9, clicks:0, growth:"+65", growthSub:"65 net new · 12.8K total followers · May 28–Jun 3 via TikTok Studio (↑38.5% views WoW)" },
+        kpis: { views:12200, reach:0, likes:368, shares:17, comments:9, clicks:0, growth:"+65", growthSub:"65 net new · 12.8K total · May 28–Jun 3 via TikTok Studio (↑38.5% views WoW)" },
         daily: []
       },
       uk: {
-        kpis: { views:136, reach:0, likes:1, shares:0, comments:1, clicks:0, growth:"+6", growthSub:"6 net new · 55 total followers · May 28–Jun 3 via TikTok Studio (↑9.7% views WoW)" },
+        kpis: { views:136, reach:0, likes:1, shares:0, comments:1, clicks:0, growth:"+6", growthSub:"6 net new · 55 total · May 28–Jun 3 via TikTok Studio (↑9.7% views WoW)" },
         daily: []
       }
     }
