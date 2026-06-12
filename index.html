@@ -101,7 +101,7 @@ a.pl:hover { text-decoration: underline; }
   <div class="week-selector-wrap">
     <label>Week:</label>
     <select id="weekSelect" onchange="switchWeek(this.value)">
-      <option value="jun08" selected>Jun 8–11, 2026</option>
+      <option value="jun07" selected>Jun 7–11, 2026</option>
       <option value="jun01">Jun 1–4, 2026</option>
       <option value="may24">May 24–28, 2026</option>
       <option value="may17">May 17–21, 2026</option>
@@ -193,10 +193,10 @@ a.pl:hover { text-decoration: underline; }
 </div>
 <script>
 const WEEKS = {
-  jun08: {
-    label: "Jun 8–11, 2026",
+  jun07: {
+    label: "Jun 7–11, 2026",
     facebook: {
-      note: "✅ Facebook organic data via Supermetrics · Jun 8–11, 2026. Father's Day + Pride content. DE and FR had 0 posts this week. 'i said what i said' topped NA at 18K views.",
+      note: "✅ Facebook organic data via Supermetrics · Jun 8–11, 2026 (no posts on Jun 7). Father's Day + Pride content. DE and FR had 0 posts this week. 'i said what i said' topped NA at 18K views.",
       kpis: { views:69963, reach:53446, posts:9, eng:30, topViews:18113, topLabel:"i said what i said 🍽️ (NA, 06/09)" },
       pages: [
         { name:"Groupon US", badge:"us", posts:[
@@ -218,10 +218,11 @@ const WEEKS = {
     },
     instagram: {
       feed: {
-        kpis: { totalViews:24584, ownedViews:24584, posts:10, likes:138, likesSub:"US (9 posts) · UK (1 post)", shares:60, topViews:6859, topLabel:"Pride Reel — it's Pride. You love us. (US, 06/10)" },
-        collabNote: "✅ 10 IG feed posts Jun 8–11 · US (9) · UK (1). Top post: Pride Reel at 6,859 views; 'Oh…you have a Groupon for that' led shares with 35.",
+        kpis: { totalViews:27836, ownedViews:27836, posts:11, likes:145, likesSub:"US (10 posts) · UK (1 post)", shares:60, topViews:6859, topLabel:"Pride Reel — it's Pride. You love us. (US, 06/10)" },
+        collabNote: "✅ 11 IG feed posts Jun 7–11 · US (10) · UK (1). Top post: Pride Reel at 6,859 views; 'Oh…you have a Groupon for that' led shares with 35.",
         accounts: [
           { name:"Groupon U.S.", badge:"us", posts:[
+            { date:"06/07", caption:"valid tbh ⛵ tag that friend below", type:"image", views:3252, reach:2060, likes:7, shares:0, cmts:1, saves:0, url:"https://www.instagram.com/p/DZS0DRLDQbM/", collab:false },
             { date:"06/08", caption:"i said what i said 🍽️", type:"image", views:1544, reach:912, likes:6, shares:11, cmts:1, saves:0, url:"https://www.instagram.com/p/DZVmkA6lMfk/", collab:false },
             { date:"06/09", caption:"aerodynamics > aesthetics.", type:"image", views:1847, reach:1148, likes:4, shares:0, cmts:0, saves:1, url:"https://www.instagram.com/p/DZXiMvzHId-/", collab:false },
             { date:"06/09", caption:"okay hear us out… another tie? no. matching socks? please no. 🍷 comment WINE below and we'll send you something dad will actually be excited about. #swirlwine #fathersday #groupon", type:"image", views:2564, reach:1732, likes:6, shares:0, cmts:0, saves:0, url:"https://www.instagram.com/p/DZX9m2hlPBz/", collab:false },
@@ -911,10 +912,10 @@ const WEEKS = {
   }
 };
 
-let currentWeek = "jun08";
+let currentWeek = "jun07";
 let fbChart, igfChart, ttNaChart, ttUkChart;
 
-const WEEK_KEYS = ['jun08', 'jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
+const WEEK_KEYS = ['jun07', 'jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
 function prevWeekKey(key) {
   const idx = WEEK_KEYS.indexOf(key);
   return idx < WEEK_KEYS.length - 1 ? WEEK_KEYS[idx + 1] : null;
