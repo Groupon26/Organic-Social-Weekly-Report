@@ -101,7 +101,8 @@ a.pl:hover { text-decoration: underline; }
   <div class="week-selector-wrap">
     <label>Week:</label>
     <select id="weekSelect" onchange="switchWeek(this.value)">
-      <option value="jun01" selected>Jun 1–4, 2026</option>
+      <option value="jun08" selected>Jun 8–11, 2026</option>
+      <option value="jun01">Jun 1–4, 2026</option>
       <option value="may24">May 24–28, 2026</option>
       <option value="may17">May 17–21, 2026</option>
       <option value="may10">May 10–14, 2026</option>
@@ -192,6 +193,35 @@ a.pl:hover { text-decoration: underline; }
 </div>
 <script>
 const WEEKS = {
+  jun08: {
+    label: "Jun 8–11, 2026",
+    facebook: {
+      note: "⏳ Facebook data pending — will be populated by the 10 PM automated run.",
+      kpis: { views:0, reach:0, posts:0, eng:0, topViews:0, topLabel:"Pending" },
+      pages: []
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:0, ownedViews:0, posts:0, likes:0, likesSub:"Pending", shares:0, topViews:0, topLabel:"Pending" },
+        collabNote: "⏳ Instagram data pending — will be populated by the 10 PM automated run.",
+        accounts: []
+      },
+      stories: {
+        kpis: { count:0, countSub:"Pending", totalViews:0, totalReach:0, topViews:0, topLabel:"Pending" },
+        accounts: []
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:10600, reach:0, likes:289, shares:42, comments:-1, clicks:0, growth:"+206", growthSub:"206 net new · 13K total · Jun 4–10 via TikTok Studio (↓13.4% views WoW)" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:0, reach:0, likes:0, shares:0, comments:0, clicks:0, growth:"+4", growthSub:"59 total (4 net new from 55) · Studio analytics unavailable — Browser 2 not connected" },
+        daily: []
+      }
+    }
+  },
   jun01: {
     label: "Jun 1–4, 2026",
     facebook: {
@@ -850,10 +880,10 @@ const WEEKS = {
   }
 };
 
-let currentWeek = "jun01";
+let currentWeek = "jun08";
 let fbChart, igfChart, ttNaChart, ttUkChart;
 
-const WEEK_KEYS = ['jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
+const WEEK_KEYS = ['jun08', 'jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
 function prevWeekKey(key) {
   const idx = WEEK_KEYS.indexOf(key);
   return idx < WEEK_KEYS.length - 1 ? WEEK_KEYS[idx + 1] : null;
