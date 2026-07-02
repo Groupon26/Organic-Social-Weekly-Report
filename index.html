@@ -2,7 +2,7 @@
 {
   "name": "Groupon Instagram Weekly Report",
   "schemaVersion": 1,
-  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK, and Linktree performance across US, UK, FR, DE, and ES pages. Updated weekly. Current week: Jun 15–19, 2026.",
+  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK, and Linktree performance across US, UK, FR, DE, and ES pages. Updated weekly. Current week: Jun 28–Jul 2, 2026.",
   "mcpTools": [
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__data_query",
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__get_async_query_results",
@@ -101,7 +101,10 @@ a.pl:hover { text-decoration: underline; }
   <div class="week-selector-wrap">
     <label>Week:</label>
     <select id="weekSelect" onchange="switchWeek(this.value)">
-      <option value="jun07" selected>Jun 7–11, 2026</option>
+      <option value="jun28" selected>Jun 28–Jul 2, 2026</option>
+      <option value="jun21">Jun 21–25, 2026</option>
+      <option value="jun14">Jun 14–18, 2026</option>
+      <option value="jun07">Jun 7–11, 2026</option>
       <option value="jun01">Jun 1–4, 2026</option>
       <option value="may24">May 24–28, 2026</option>
       <option value="may17">May 17–21, 2026</option>
@@ -193,6 +196,93 @@ a.pl:hover { text-decoration: underline; }
 </div>
 <script>
 const WEEKS = {
+  jun28: {
+    label: "Jun 28–Jul 2, 2026",
+    facebook: {
+      note: "⏳ Facebook data pending — CSV not yet uploaded.",
+      kpis: { views:0, reach:0, posts:0, eng:0, topViews:0, topLabel:"Pending" },
+      pages: []
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:0, ownedViews:0, posts:0, likes:0, likesSub:"Pending", shares:0, topViews:0, topLabel:"Pending" },
+        collabNote: "⏳ Instagram data pending — CSV not yet uploaded.",
+        accounts: []
+      },
+      stories: {
+        kpis: { count:0, countSub:"Pending", totalViews:0, totalReach:0, topViews:0, topLabel:"Pending" },
+        accounts: []
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:12700, reach:12900, likes:416, shares:24, comments:6, clicks:0, growth:"+63", growthSub:"-36.4% vs prior wk" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:196, reach:117, likes:1, shares:2, comments:0, clicks:0, growth:"+2", growthSub:"0% vs prior wk" },
+        daily: []
+      }
+    }
+  },
+  jun21: {
+    label: "Jun 21–25, 2026",
+    facebook: {
+      note: "⏳ Facebook data pending.",
+      kpis: { views:0, reach:0, posts:0, eng:0, topViews:0, topLabel:"Pending" },
+      pages: []
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:0, ownedViews:0, posts:0, likes:0, likesSub:"Pending", shares:0, topViews:0, topLabel:"Pending" },
+        collabNote: "⏳ Instagram data pending.",
+        accounts: []
+      },
+      stories: {
+        kpis: { count:0, countSub:"Pending", totalViews:0, totalReach:0, topViews:0, topLabel:"Pending" },
+        accounts: []
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:0, reach:0, likes:0, shares:0, comments:0, clicks:0, growth:"—", growthSub:"Data not available" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:0, reach:0, likes:0, shares:0, comments:0, clicks:0, growth:"—", growthSub:"Data not available" },
+        daily: []
+      }
+    }
+  },
+  jun14: {
+    label: "Jun 14–18, 2026",
+    facebook: {
+      note: "⏳ Facebook data pending.",
+      kpis: { views:0, reach:0, posts:0, eng:0, topViews:0, topLabel:"Pending" },
+      pages: []
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:0, ownedViews:0, posts:0, likes:0, likesSub:"Pending", shares:0, topViews:0, topLabel:"Pending" },
+        collabNote: "⏳ Instagram data pending.",
+        accounts: []
+      },
+      stories: {
+        kpis: { count:0, countSub:"Pending", totalViews:0, totalReach:0, topViews:0, topLabel:"Pending" },
+        accounts: []
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:0, reach:0, likes:0, shares:0, comments:0, clicks:0, growth:"—", growthSub:"Data not available" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:0, reach:0, likes:0, shares:0, comments:0, clicks:0, growth:"—", growthSub:"Data not available" },
+        daily: []
+      }
+    }
+  },
   jun07: {
     label: "Jun 7–11, 2026",
     facebook: {
@@ -922,10 +1012,10 @@ const WEEKS = {
   }
 };
 
-let currentWeek = "jun07";
+let currentWeek = "jun28";
 let fbChart, igfChart, ttNaChart, ttUkChart;
 
-const WEEK_KEYS = ['jun07', 'jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
+const WEEK_KEYS = ['jun28', 'jun21', 'jun14', 'jun07', 'jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
 function prevWeekKey(key) {
   const idx = WEEK_KEYS.indexOf(key);
   return idx < WEEK_KEYS.length - 1 ? WEEK_KEYS[idx + 1] : null;
