@@ -2,7 +2,7 @@
 {
   "name": "Groupon Instagram Weekly Report",
   "schemaVersion": 1,
-  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK, and Linktree performance across US, UK, FR, DE, and ES pages. Updated weekly. Current week: Jul 5–9, 2026.",
+  "description": "Groupon Social Media Weekly Report — Facebook, Instagram, TikTok NA/UK, and Linktree performance across US, UK, FR, DE, and ES pages. Updated weekly. Current week: Jul 12–16, 2026.",
   "mcpTools": [
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__data_query",
     "mcp__e385cdf1-a18e-4e38-85d2-b08ae7f3e23f__get_async_query_results",
@@ -101,7 +101,8 @@ a.pl:hover { text-decoration: underline; }
   <div class="week-selector-wrap">
     <label>Week:</label>
     <select id="weekSelect" onchange="switchWeek(this.value)">
-      <option value="jul05" selected>Jul 5–9, 2026</option>
+      <option value="jul12" selected>Jul 12–16, 2026</option>
+      <option value="jul05">Jul 5–9, 2026</option>
       <option value="jun28">Jun 28–Jul 2, 2026</option>
       <option value="jun21">Jun 21–25, 2026</option>
       <option value="jun14">Jun 14–18, 2026</option>
@@ -197,6 +198,35 @@ a.pl:hover { text-decoration: underline; }
 </div>
 <script>
 const WEEKS = {
+  jul12: {
+    label: "Jul 12–16, 2026",
+    facebook: {
+      note: "⏳ Facebook data pending — will be populated by the 10 PM automated run.",
+      kpis: { views:0, reach:0, posts:0, eng:0, topViews:0, topLabel:"Pending" },
+      pages: []
+    },
+    instagram: {
+      feed: {
+        kpis: { totalViews:0, ownedViews:0, posts:0, likes:0, likesSub:"Pending", shares:0, topViews:0, topLabel:"Pending" },
+        collabNote: "⏳ Instagram data pending — will be populated by the 10 PM automated run.",
+        accounts: []
+      },
+      stories: {
+        kpis: { count:0, countSub:"Pending", totalViews:0, totalReach:0, topViews:0, topLabel:"Pending" },
+        accounts: []
+      }
+    },
+    tiktok: {
+      na: {
+        kpis: { views:10325, reach:6965, likes:179, shares:19, comments:18, clicks:0, growth:"+133", growthSub:"+33.0% vs prior wk · data thru Jul 15" },
+        daily: []
+      },
+      uk: {
+        kpis: { views:103, reach:49, likes:6, shares:9, comments:0, clicks:0, growth:"+4", growthSub:"+33.3% vs prior wk · data thru Jul 15" },
+        daily: []
+      }
+    }
+  },
   jul05: {
     label: "Jul 5–9, 2026",
     facebook: {
@@ -1042,10 +1072,10 @@ const WEEKS = {
   }
 };
 
-let currentWeek = "jul05";
+let currentWeek = "jul12";
 let fbChart, igfChart, ttNaChart, ttUkChart;
 
-const WEEK_KEYS = ['jul05', 'jun28', 'jun21', 'jun14', 'jun07', 'jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
+const WEEK_KEYS = ['jul12', 'jul05', 'jun28', 'jun21', 'jun14', 'jun07', 'jun01', 'may24', 'may17', 'may10', 'may03', 'apr26', 'apr19'];
 function prevWeekKey(key) {
   const idx = WEEK_KEYS.indexOf(key);
   return idx < WEEK_KEYS.length - 1 ? WEEK_KEYS[idx + 1] : null;
